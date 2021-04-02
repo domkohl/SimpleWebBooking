@@ -1,0 +1,19 @@
+{
+  "name": "tnpw2_projekt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/domkohl/TNPW2_Projekt.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/domkohl/TNPW2_Projekt/issues"
+  },
+  "homepage": "https://github.com/domkohl/TNPW2_Projekt#readme"
+}
