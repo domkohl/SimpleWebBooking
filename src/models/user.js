@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        unique: true
     },
     email: {
         type: String,
@@ -16,6 +17,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         lowercase: true,
+        unique: true,
         validate(value) {
             if (!validator.isEmail(value)) {
                 throw new Error('Neplatná mailová adresa!')
@@ -32,50 +34,50 @@ const userSchema = new mongoose.Schema({
                 throw new Error('Heslo nesmí obsahovat "heslo"')
             }
         }
-    },
-    tokens: [{
-        token: {
-            type: String,
-            required: true
-        }
-    }] 
-})
-
-userSchema.methods.generateAuthToken = async function () {
-    const user = this
-    const token = jwt.sign({ _id: user._id.toString() }, 'Valentýn')
-
-    user.tokens = user.tokens.concat({ token })
-    await user.save()
-
-    return token
-}
-
-userSchema.statics.findByCredentials = async (email, password) => {
-    const user = await User.findOne({ email })
-
-    if (!user) {
-        throw new Error('Přihlášení selhalo - uživatel nenalezen')
     }
+    // tokens: [{
+    //     token: {
+    //         type: String,
+    //         // required: true
+    //     }
+    // }] 
+}, {collection: "users"})
 
-    const isMatch = await bcrypt.compare(password, user.password)
+// userSchema.methods.generateAuthToken = async function () {
+//     const user = this
+//     const token = jwt.sign({ _id: user._id.toString() }, 'Valentýn')
 
-    if (!isMatch) {
-        throw new Error('Přihlášení selhalo - údaje neodpovídají')
-    }
+//     user.tokens = user.tokens.concat({ token })
+//     await user.save()
 
-    return user
-}
+//     return token
+// }
 
-userSchema.pre('save', async function (next) {
-    const user = this
+// userSchema.statics.findByCredentials = async (email, password) => {
+//     const user = await User.findOne({ email })
 
-    if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 8)
-    }
+//     if (!user) {
+//         throw new Error('Přihlášení selhalo - uživatel nenalezen')
+//     }
 
-    next()
-})
+//     const isMatch = await bcrypt.compare(password, user.password)
+
+//     if (!isMatch) {
+//         throw new Error('Přihlášení selhalo - údaje neodpovídají')
+//     }
+
+//     return user
+// }
+
+// userSchema.pre('save', async function (next) {
+//     const user = this
+
+//     if (user.isModified('password')) {
+//         user.password = await bcrypt.hash(user.password, 8)
+//     }
+
+//     next()
+// })
 
 
 const User = mongoose.model('User', userSchema)

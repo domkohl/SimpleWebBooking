@@ -19,7 +19,14 @@ async function userRegistration(event){
     })
 
         const finnalResult =  await result.json()
-        console.log(finnalResult)
+        
+        if(finnalResult.status === "ok"){
+            //vse v proadku
+            alert("Heslo zmeneno")
+        }else{
+            alert(finnalResult.error)
+        }
+
 }
 
 
