@@ -18,7 +18,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/ubytovaciZarizeni', {
 const bcrypt = require("bcryptjs")
 const User = require('./models/user')
 const jwt = require("jsonwebtoken")
-const e = require('express')
+const auth = require('./middleware/auth')
 
 //////////////////////////////////////////////
 // const hbs = require("hbs")
@@ -105,7 +105,7 @@ app.post("/api/login",async (req,res)=>{
     }
 })
 
-app.post("/api/changepassword",async (req,res)=>{
+app.post("/api/changepassword",auth,async (req,res)=>{
     const { token ,newPassword:noHashedPassword} = req.body
 
     if(!noHashedPassword || typeof noHashedPassword !== "string"){
