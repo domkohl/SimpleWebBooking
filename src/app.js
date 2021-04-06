@@ -32,6 +32,9 @@ app.set("views",viewspath)
 
 
 ////////////////////////////////////////////////////////
+app.get("/",(req,res)=>{
+    res.render("login.hbs")
+})
 app.get("/login",(req,res)=>{
     res.render("login.hbs")
 })
@@ -46,28 +49,30 @@ app.get("/change-password",(req,res)=>{
 
 app.post("/api/register",async (req,res)=>{
 
+    const {username,email,password: password} = req.body
 
-    const {username,email,password: noHashedPassword} = req.body
-    const password = await bcrypt.hash(noHashedPassword,10)
 
     if(!username || typeof username !== "string"){
         return res.json({status: "error",error:"Invalid username"})
     }
 
-    if(!noHashedPassword || typeof noHashedPassword !== "string"){
+    if(!password || typeof password !== "string"){
         return res.json({status: "error",error:"Invalid password"})
     }
 
-    if(noHashedPassword.length < 7 ){
+    if(password.length < 7 ){
         return res.json({status: "error",error:"Password is to short"})
     }
     try{
-        const result = await User.create({
-            username,
-            email,
-            password
-        })
-        console.log(result)
+        // console.log(req.body)
+        // const result = await User.create({
+        //     username,
+        //     email,
+        //     password
+        // })
+        // console.log(result)
+        const user = new User(req.body)
+        await user.save()
     }catch(e){
         if(e.code === 11000){
             //duplicita jmena nebo mailu
@@ -95,7 +100,8 @@ app.post("/api/login",async (req,res)=>{
 
     //     return res.json({status: "ok",data:token})
     // }
-    const {email,password} = req.body
+    // const {email,password} = req.body
+    console.log(req.body)
     try{
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken()
@@ -105,8 +111,11 @@ app.post("/api/login",async (req,res)=>{
     }
 })
 
-app.post("/api/changepassword",auth,async (req,res)=>{
-    const { token ,newPassword:noHashedPassword} = req.body
+app.post("/api/changepassword",auth ,async (req,res)=>{
+    // const { token ,newPassword:noHashedPassword} = req.body
+    // console.log(req.body.user)
+    const noHashedPassword = req.body.newPassword
+    const userToChange = req.body.user
 
     if(!noHashedPassword || typeof noHashedPassword !== "string"){
         return res.json({status: "error",error:"Invalid password"})
@@ -117,14 +126,16 @@ app.post("/api/changepassword",auth,async (req,res)=>{
     }
 
     try{
-        const userChange = jwt.verify(token, "Valentýn")
+        // const userChange = jwt.verify(token, "Valentýn")
         //... muzu zmenit heslo
-        console.log(userChange)
-        const _id = userChange.id
-        const hashedPassword = await bcrypt.hash(noHashedPassword,10)
-        await User.updateOne ({_id},{
-            $set:{password: hashedPassword}
-        })
+        // console.log(userChange)
+        // const _id = userChange.id
+        // const hashedPassword = await bcrypt.hash(noHashedPassword,10)
+        userToChange.password = noHashedPassword
+        userToChange.save()
+        // await User.updateOne ({_id},{
+        //     $set:{password: hashedPassword}
+        // })
     }catch(e){
         console.log(e)
         res.json({status: "error",error:"No way possible"})

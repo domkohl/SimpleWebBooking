@@ -11,8 +11,11 @@ const auth = async (req, res, next) => {
         if (!user) {
             throw new Error()
         }
-        req.token = token
-        req.user = user
+
+        // console.log(req.body)
+        req.body.token = token
+        req.body.user = user
+        console.log(req.body)
         next()
     } catch (e) {
         res.status(401).send({ error: 'Prokažte svou totožnost.' })

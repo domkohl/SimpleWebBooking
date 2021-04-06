@@ -61,6 +61,8 @@ userSchema.statics.findByCredentials = async (email, password) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password)
+    // console.log(password)
+    // console.log(await bcrypt.compare(password, user.password))
 
     if (!isMatch) {
         throw new Error('Přihlášení selhalo - údaje neodpovídají')
@@ -69,15 +71,15 @@ userSchema.statics.findByCredentials = async (email, password) => {
     return user
 }
 
-// userSchema.pre('save', async function (next) {
-//     const user = this
+userSchema.pre('save', async function (next) {
+    const user = this
 
-//     if (user.isModified('password')) {
-//         user.password = await bcrypt.hash(user.password, 8)
-//     }
+    if (user.isModified('password')) {
+        user.password = await bcrypt.hash(user.password, 8)
+    }
 
-//     next()
-// })
+    next()
+})
 
 
 const User = mongoose.model('User', userSchema)
