@@ -15,11 +15,10 @@ mongoose.connect('mongodb://127.0.0.1:27017/ubytovaciZarizeni', {
 })
 ///////////////////////////////
 
-const user = require("./models/user")
-
 const bcrypt = require("bcryptjs")
 const User = require('./models/user')
 const jwt = require("jsonwebtoken")
+const e = require('express')
 
 //////////////////////////////////////////////
 // const hbs = require("hbs")
@@ -77,33 +76,33 @@ app.post("/api/register",async (req,res)=>{
         throw e
     }
 
-
     res.json({status: "ok"})
-
 })
 
 
 app.post("/api/login",async (req,res)=>{
 
+    // const {email,password} = req.body
+    //lean zrychluje .lean()
+    // const searchingUser = await User.findOne({email})
+
+    // if(!searchingUser){
+    //     return res.json({status: "error",error:"Invalid username or password"})
+    // }
+    // if(await bcrypt.compare(password,searchingUser.password)){
+    //     //heslo stejne
+    //     const token = await searchingUser.generateAuthToken()
+
+    //     return res.json({status: "ok",data:token})
+    // }
     const {email,password} = req.body
-
-
-
-    //lean zrychluje
-    const searchingUser = await user.findOne({email}).lean()
-
-    if(!searchingUser){
-        return res.json({status: "error",error:"Invalid username or password"})
-    }
-
-    if(await bcrypt.compare(password,searchingUser.password)){
-        //heslo stejne
-        const token = jwt.sign({id: searchingUser._id,username: searchingUser.username},"ddasdsada")
-
+    try{
+        const user = await User.findByCredentials(req.body.email, req.body.password)
+        const token = await user.generateAuthToken()
         return res.json({status: "ok",data:token})
+    }catch(e){
+        res.json({status: "error",error: e.message})
     }
-    res.json({status: "error",error:"Invalid username or password"})
-
 })
 
 app.post("/api/changepassword",async (req,res)=>{
@@ -118,11 +117,12 @@ app.post("/api/changepassword",async (req,res)=>{
     }
 
     try{
-        const userChange = jwt.verify(token, "ddasdsada")
+        const userChange = jwt.verify(token, "Valentýn")
         //... muzu zmenit heslo
+        console.log(userChange)
         const _id = userChange.id
         const hashedPassword = await bcrypt.hash(noHashedPassword,10)
-        await user.updateOne ({_id},{
+        await User.updateOne ({_id},{
             $set:{password: hashedPassword}
         })
     }catch(e){

@@ -34,40 +34,40 @@ const userSchema = new mongoose.Schema({
                 throw new Error('Heslo nesmí obsahovat "heslo"')
             }
         }
-    }
-    // tokens: [{
-    //     token: {
-    //         type: String,
-    //         // required: true
-    //     }
-    // }] 
+    },
+    tokens: [{
+        token: {
+            type: String,
+            // required: true
+        }
+    }] 
 }, {collection: "users"})
 
-// userSchema.methods.generateAuthToken = async function () {
-//     const user = this
-//     const token = jwt.sign({ _id: user._id.toString() }, 'Valentýn')
+userSchema.methods.generateAuthToken = async function () {
+    const user = this
+    const token = jwt.sign({id: user._id}, 'Valentýn')
 
-//     user.tokens = user.tokens.concat({ token })
-//     await user.save()
+    user.tokens = user.tokens.concat({ token })
+    await user.save()
 
-//     return token
-// }
+    return token
+}
 
-// userSchema.statics.findByCredentials = async (email, password) => {
-//     const user = await User.findOne({ email })
+userSchema.statics.findByCredentials = async (email, password) => {
+    const user = await User.findOne({ email })
 
-//     if (!user) {
-//         throw new Error('Přihlášení selhalo - uživatel nenalezen')
-//     }
+    if (!user) {
+        throw new Error('Přihlášení selhalo - uživatel nenalezen')
+    }
 
-//     const isMatch = await bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, user.password)
 
-//     if (!isMatch) {
-//         throw new Error('Přihlášení selhalo - údaje neodpovídají')
-//     }
+    if (!isMatch) {
+        throw new Error('Přihlášení selhalo - údaje neodpovídají')
+    }
 
-//     return user
-// }
+    return user
+}
 
 // userSchema.pre('save', async function (next) {
 //     const user = this
