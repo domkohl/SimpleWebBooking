@@ -6,7 +6,6 @@ const auth = async (req, res, next) => {
         const token = req.body.token
         const decoded = jwt.verify(token, 'Valentýn')
         const user = await User.findOne({ _id: decoded.id, 'tokens.token': token })
-
     
         if (!user) {
             throw new Error()
@@ -15,7 +14,7 @@ const auth = async (req, res, next) => {
         // console.log(req.body)
         req.body.token = token
         req.body.user = user
-        console.log(req.body)
+        // console.log(req.body)
         next()
     } catch (e) {
         res.status(401).send({ error: 'Prokažte svou totožnost.' })
