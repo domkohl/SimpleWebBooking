@@ -21,5 +21,5 @@ const Reservation = mongoose.model('Reservation', {
     }
 })
 
-const Reservation = mongoose.model('Reservation', userSchema)
+// const Reservation = mongoose.model('Reservation', userSchema)
 module.exports = Reservation
