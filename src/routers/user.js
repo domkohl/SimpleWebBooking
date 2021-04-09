@@ -2,6 +2,7 @@
 const express = require('express')
 const User = require('../models/user')
 const auth = require('../middleware/auth')
+const { scopedReservations } = require('../permissions/reservations')
 
 const router = new express.Router()
 
@@ -116,9 +117,11 @@ router.post("/api/changepassword",auth ,async (req,res)=>{
 
 router.get('/users/me', auth, async (req, res) => {
     // console.log(req.body.user.username)
+    // console.log(scopedReservations(req.body.user))
+    console.log(req.body.user)
     res.render('user.hbs', {
-        username: req.body.user.username
-        // tasks: tasks,
+        username: req.body.user.username,
+        reservations: await scopedReservations(req.body.user)
         // user: req.user.name
     })
 })

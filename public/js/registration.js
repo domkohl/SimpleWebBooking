@@ -22,7 +22,7 @@ async function userRegistration(event){
         
         if(finnalResult.status === "ok"){
             //vse v proadku
-            alert("Heslo zmeneno")
+            alert("Registrac uspesna")
         }else{
             alert(finnalResult.error)
         }

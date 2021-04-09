@@ -3,6 +3,11 @@ const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+const ROLE = {
+    ADMIN: 'admin',
+    BASIC: 'basic'
+  }
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -33,6 +38,11 @@ const userSchema = new mongoose.Schema({
                 throw new Error('Heslo nesmí obsahovat "heslo"')
             }
         }
+    },
+    role: {
+        type: String,
+        required: true,
+        default: ROLE.BASIC
     },
     tokens: [{
         token: {

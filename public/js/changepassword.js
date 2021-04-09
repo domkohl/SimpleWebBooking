@@ -19,7 +19,7 @@ async function userRegistration(event){
         
         if(finnalResult.status === "ok"){
             //vse v proadku
-            alert("Úspěšná registrace")
+            alert("Úspěšná změna hesla")
         }else{
             alert(finnalResult.error)
         }
