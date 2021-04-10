@@ -18,6 +18,11 @@ const Reservation = mongoose.model('Reservation', {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
+    },
+    room:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Room'
     }
 })
 

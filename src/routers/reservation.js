@@ -12,19 +12,20 @@ const ROLE = {
 const router = new express.Router()
 router.post("/api/reservation",auth,dateAllowed,async (req,res)=>{
 
-    const {checkIn,checkOut,status} = req.body
+    const {checkIn,checkOut,room} = req.body
     const owner = req.body.user._id
 
     try {
     const result = await Reservation.create({
             checkIn,
             checkOut,
-            status,
-            owner
+            status:"pending",
+            owner,
+            room
     })
     res.json({status:"ok"})
     } catch (error) {
-        console.log(error.message)
+        // console.log(error.message)
         res.json({status:"error",error:"spatne zadani terminu"})
 
     }
@@ -72,12 +73,16 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
         const delRes = await Reservation.findOneAndUpdate({ _id: req.params.id, owner: req.body.user._id },{checkIn:null,
             checkOut:null},{ useFindAndModify: false, new : true, runValidators : true})
         }
+
+        if(tmpRes === null){
+            throw new Error('Rezervace nenalezena')
+        }
         console.log(req.body)
         tmpCheckIn = tmpRes.checkIn
         tmpCheckOut = tmpRes.checkOut
         console.log(req.body)
     
-        const {checkIn,checkOut} = req.body
+        const {checkIn,checkOut,room} = req.body
 
     
         const checkInDate = new Date(checkIn);
@@ -89,7 +94,7 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
             return
         }
         
-        const test =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate}})
+        const test =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"room":room})
     
         if(!test.length == 0){
             throw new Error('Vybráný termín nebo jeho část je již rezervována')
@@ -100,7 +105,7 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
         if(req.body.user.role === ROLE.ADMIN){
         
             const reservation = await Reservation.findOneAndUpdate({ _id: req.params.id},{status:req.body.status,checkIn:req.body.checkIn,
-            checkOut:req.body.checkOut},{ useFindAndModify: false, new : true, runValidators : true})
+            checkOut:req.body.checkOut,room:req.body.room},{ useFindAndModify: false, new : true, runValidators : true})
                 if (!reservation) {
                     throw new Error('Nenalezena rezevace v roli admin')
                     return res.status(404).send()
@@ -108,7 +113,7 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
                 res.json({status:"ok"})
         }else{
             const reservation = await Reservation.findOneAndUpdate({ _id: req.params.id},{status:"pending",checkIn:req.body.checkIn,
-                checkOut:req.body.checkOut},{ useFindAndModify: false, new : true, runValidators : true})
+                checkOut:req.body.checkOut,room:req.body.room},{ useFindAndModify: false, new : true, runValidators : true})
                 if (!reservation) {
                     throw new Error('Nenalezena rezevace v roli basic')
                     return res.status(404).send()
@@ -141,7 +146,7 @@ async function dateAllowed(req,res,next){
     }
 
     try {
-        const test =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate}})
+        const test =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"room":req.body.room})
 
     if(!test.length == 0){
         res.json({status:"error",error:"Vybráný termín nebo jeho část je již rezervována"})

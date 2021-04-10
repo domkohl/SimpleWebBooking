@@ -35,6 +35,7 @@ app.set("views",viewspath)
 
 const userRouter = require('./routers/user')
 const reservationRouter = require('./routers/reservation')
+const roomRouter = require('./routers/room')
 
 app.get("/",(req,res)=>{
     res.render("login.hbs")
@@ -42,6 +43,7 @@ app.get("/",(req,res)=>{
 
 app.use(userRouter)
 app.use(reservationRouter)
+app.use(roomRouter)
 
 app.listen(port, () => {
     console.log('Server poslouchá na portu ' + port)
