@@ -27,13 +27,6 @@ router.post("/api/register",async (req,res)=>{
         return res.json({status: "error",error:"Invalid username"})
     }
 
-    if(!password || typeof password !== "string"){
-        return res.json({status: "error",error:"Invalid password"})
-    }
-
-    if(password.length < 7 ){
-        return res.json({status: "error",error:"Password is to short"})
-    }
     try{
         // console.log(req.body)
         // const result = await User.create({
@@ -43,13 +36,16 @@ router.post("/api/register",async (req,res)=>{
         // })
         // console.log(result)
         const user = new User(req.body)
+        user.role = "basic"
         await user.save()
     }catch(e){
         if(e.code === 11000){
             //duplicita jmena nebo mailu
             return res.json({status: "error",error: "Username already in use"})
+        }else{
+            console.log(e.message)
+            return res.json({status: "error",error: e.message})
         }
-        throw e
     }
 
     res.json({status: "ok"})
@@ -125,6 +121,31 @@ router.get('/users/me', auth, async (req, res) => {
         // user: req.user.name
     })
 })
+
+
+router.patch('/users/me', auth, async (req, res) => {
+    console.log(req.body.params)
+    const updates = Object.keys(req.body.params)
+    const allowedUpdates = ['username', 'email', 'password', 'age', "adress"]
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Neplatná aktualizace!' })
+    }
+
+    try {
+        updates.forEach((update) => req.body.user[update] = req.body.params[update])
+        await req.body.user.save()
+        res.json({status:"ok"})
+    } catch (e) {
+        console.log(e.message)
+        res.status(400).send(e.message)
+    }
+
+})
+
+
+
 
 
 module.exports = router

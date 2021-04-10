@@ -37,7 +37,10 @@ router.delete("/api/reservation/:id",auth,async (req,res)=>{
     // console.log(req.params.id)
     
     try {
-        const reservation = await Reservation.findOneAndDelete({ _id: req.params.id, owner: req.body.user._id })
+        let reservation = await Reservation.findOneAndDelete({ _id: req.params.id, owner: req.body.user._id })
+        if(req.body.user.role === ROLE.ADMIN){
+            reservation = await Reservation.findOneAndDelete({ _id: req.params.id})
+        }
 
         if (!reservation) {
             return res.status(404).send()

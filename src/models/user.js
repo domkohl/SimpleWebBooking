@@ -31,13 +31,26 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minlength: 7,
+        minlength: 8,
         trim: true,
         validate(value) {
-            if (value.toLowerCase().includes('heslo')) {
-                throw new Error('Heslo nesmí obsahovat "heslo"')
+            if (!validator.isStrongPassword(value,{minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1,minSymbols: 0})) {
+                throw new Error('Heslo musí být délky min. 8 a obsahovat: 1 malé písmeno,1 velé písmeno a jednu cislici')
             }
         }
+    },
+    age: {
+        type: Number,
+        default: 0,
+        validate(value) {
+            if (value < 0) {
+                throw new Error('Věk musí být kladné číslo!')
+            }
+        }
+    },
+    adress: {
+        type: String,
+        default: ""
     },
     role: {
         type: String,
