@@ -3,6 +3,7 @@ const User = require('../models/user')
 const auth = require('../middleware/auth')
 const Reservation = require('../models/reservation')
 const e = require('express')
+const Room = require('../models/room')
 
 const ROLE = {
     ADMIN: 'admin',
@@ -132,6 +133,49 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
 
     }
 
+})
+
+router.get("/api/reservation-date",async (req,res)=>{
+
+    const {checkIn,checkOut} = req.body
+
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+
+    if(checkInDate>=checkOutDate){
+        res.json({status:"error",error:"Spatne zadaní termínu"})
+        return
+    }
+
+    try {
+        const toRemove =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate}})
+        let rooms = await Room.find({})
+
+        console.log(rooms)
+        console.log(toRemove)
+    if(!toRemove.length == 0){
+
+        // const outPut = rooms.filter(x =>{
+        //     return test._id.includes(x._id)
+        // })
+        toRemove.forEach(x => console.log(x.room))
+
+        rooms = rooms.filter(room => !toRemove.find(reservation => (reservation.room.toString() === room._id.toString()) ))
+
+        console.log(rooms)
+
+        res.json(rooms)
+        return
+    }else{
+        res.json(rooms)
+    }
+
+    } catch (error) {
+        console.log(error.message)
+        res.json({status:"error",error:"spatne zadani terminu"})
+
+    }
+        
 })
 
 async function dateAllowed(req,res,next){
