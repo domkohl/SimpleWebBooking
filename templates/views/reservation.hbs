@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--REZERVACE TERMÍNU-->
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Studentský projekt Kohl & Nosek</title>
+	<link rel="icon" href="img/uhk.png" type="image/png" sizes="16x16">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+	<!-- styly -->
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+
+	<!-- ikona -->
+	<link rel="icon" href="img/uhk.png" type="image/png" sizes="16x16">
+</head>
+
+<body>
+
+	<!-- nadpis -->
+	<header>
+		<img src="img/logo.png" class="nadpis" alt="Hotel Kohl & Nosek">
+	</header>
+
+	<!-- navigace -->
+	<nav class="navigace">
+		<nav class="vlevoNav">
+			<a href='index.html'>HLAVNÍ STRÁNKA </a>|
+			<a href='rezervation.html'>REZERVACE </a>|
+			<a href='profile.html'>PROFIL </a>
+		</nav>
+		<nav class="vpravoNav">
+			<a href='registration.html'>REGISTRACE </a>|
+			<a href='login.html'>LOGIN</a>
+		</nav>
+	</nav>
+
+	<!--prostřední část-->
+	<div class="clanekSiroky2">
+		<div class="clanekL">
+			<div id="booking" class="section">
+				<div class="section-center">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-7 col-md-push-5">
+							</div>
+							<div class="col-md-4 col-md-pull-7">
+								<div class="booking-form">
+									<form>
+										<div class="form-group">
+											<span class="form-label">Výběr destinace</span>
+											<input class="form-control" type="text"
+												placeholder="Zadejte cíl nebo název hotelu">
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<span class="form-label">Datum příjezdu</span>
+													<input class="form-control" id="ckeckIn" type="date" required>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="form-group">
+													<span class="form-label">Datum odjezdu</span>
+													<input class="form-control" id="ckeckOut" type="date" required>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4">
+												<div class="form-group">
+													<span class="form-label">Pokoje</span>
+													<select class="form-control">
+														<option>1</option>
+														<option>2</option>
+														<option>3</option>
+													</select>
+													<span class="select-arrow"></span>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<span class="form-label">Dospělí</span>
+													<select class="form-control">
+														<option>1</option>
+														<option>2</option>
+														<option>3</option>
+													</select>
+													<span class="select-arrow"></span>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="form-group">
+													<span class="form-label">Děti</span>
+													<select class="form-control">
+														<option>0</option>
+														<option>1</option>
+														<option>2</option>
+													</select>
+													<span class="select-arrow"></span>
+												</div>
+											</div>
+										</div>
+										<div class="form-btn">
+											<button   type="submit" class="submit-btn" id="findres">Zkontrolovat dostupnost</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clanekP">
+		</div>
+	</div>
+
+	<!-- zápatí-->
+	<div class="footer">
+		<p> &copy;2021 | Dominik Kohl & Karel Nosek - studentský zápočtový projekt</p>
+	</div>
+	<script src="/js/findres.js"></script>
+
+</body>
+
+</html>

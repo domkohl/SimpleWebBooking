@@ -111,10 +111,10 @@ router.post("/api/changepassword",auth ,async (req,res)=>{
     res.json({status:"ok"})
 })
 
-router.get('/users/me', auth, async (req, res) => {
+router.get('/users/me',authenticateToken, async (req, res) => {
     // console.log(req.body.user.username)
     // console.log(scopedReservations(req.body.user))
-    console.log(req.body.user)
+    // console.log(req._id)
     res.render('user.hbs', {
         username: req.body.user.username,
         reservations: await scopedReservations(req.body.user)
@@ -143,6 +143,31 @@ router.patch('/users/me', auth, async (req, res) => {
     }
 
 })
+
+const jwt = require('jsonwebtoken')
+
+async function authenticateToken(req, res, next) {
+    // console.log(req.headers)
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return res.sendStatus(401)
+    try {
+        const decoded = jwt.verify(token, 'Valentýn')
+        const user = await User.findOne({ _id: decoded.id, 'tokens.token': token })
+    
+        if (!user) {
+            throw new Error()
+        }
+
+        // console.log(req.body)
+        req.body.token = token
+        req.body.user = user
+        // console.log(req.body)
+        next()
+    } catch (e) {
+        res.status(401).send({ error: 'Prokažte svou totožnost.' })
+    }
+  }
 
 
 

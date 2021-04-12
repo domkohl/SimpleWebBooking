@@ -1,15 +1,18 @@
 
+
 async function userRegistration(event){
     event.preventDefault()
     console.log("testsubmit")
 
+    const username = document.getElementById("ckeckIn").value
     const email = document.getElementById("email").value
     const password = document.getElementById("password").value
-
-    const result = await fetch("/api/login",{
+    console.log(username)
+    const result = await fetch("/api/register",{
         method: "POST",
         headers:{ "Content-Type": "application/json"},
         body: JSON.stringify({
+            username,
             email,
             password
         })
@@ -19,8 +22,7 @@ async function userRegistration(event){
         
         if(finnalResult.status === "ok"){
             //vse v proadku
-            console.log("TOKEn",finnalResult.data)
-            sessionStorage.setItem("token",finnalResult.data)
+            alert("Registrac uspesna")
         }else{
             alert(finnalResult.error)
         }
@@ -28,4 +30,6 @@ async function userRegistration(event){
 }
 
 
-document.getElementById("login").addEventListener("submit",userRegistration)
+
+
+document.getElementById("findres").addEventListener("submit",userRegistration)

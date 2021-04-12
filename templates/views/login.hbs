@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--PŘIHLÁŠENÍ-->
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Studentský projekt Kohl & Nosek</title>
+	<link rel="icon" href="img/uhk.png" type="image/png" sizes="16x16">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+	<!-- styly -->
+	<!--<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />-->
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+
+	<!-- ikona -->
+	<link rel="icon" href="img/uhk.png" type="image/png" sizes="16x16">
+</head>
+
+<body>
+
+	<!-- nadpis -->
+	<header>
+		<img src="img/logo.png" class="nadpis" alt="Hotel Kohl & Nosek">
+	</header>
+
+	<!-- navigace -->
+	<nav class="navigace">
+		<nav class="vlevoNav">
+			<a href='/'>HLAVNÍ STRÁNKA </a>|
+			<a href='rezervation.html'>REZERVACE </a>|
+			<a href='/users/me'>PROFIL </a>
+		</nav>
+		<nav class="vpravoNav">
+			<a href='/register'>REGISTRACE </a>|
+			<a href='/login'>LOGIN</a>
+		</nav>
+	</nav>
+
+	<!--prostřední část-->
+	<div class="clanek2">
+		<div class="uprostredR">
+			<h2 class="uprostredText">Login</h2>
+			<form id="login">
+				<table class="table">
+					<tr>
+						<td>
+							<label class="rozestup" for="email">Email</label>
+						</td>
+						<td>
+							<input class="rozestup" type="email" id="email" name="email" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="rozestup" for="password">Heslo</label>
+						</td>
+						<td>
+							<input class="rozestup" type="password" id="password" name="password" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button class="rozestup" type="submit">Přihlásit se</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div>
+			<p class="uprostredText">Nemáte založený účet? Klikněte
+				<a class="Vtabulce" href="/register">ZDE</a>
+			</p>
+		</div>
+	</div>
+
+	<!-- zápatí-->
+	<div class="footer">
+		<p> &copy;2021 | Dominik Kohl & Karel Nosek - studentský zápočtový projekt</p>
+	</div>
+  <script src="/js/login.js"></script>
+</body>
+
+</html>

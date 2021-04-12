@@ -4,6 +4,7 @@ const app = express()
 const port = process.env.PORT || 3000
 app.use(express.json())
 const path = require("path")
+const hbs = require('hbs')
 ///////////////////////////////////////////
 
 const mongoose = require('mongoose')
@@ -24,11 +25,13 @@ const auth = require('./middleware/auth')
 // const hbs = require("hbs")
 
 const publicDirectoryPath = path.join(__dirname,"../public")
+const viewsPath = path.join(__dirname, '../templates/views')
+const partialsPath = path.join(__dirname, '../templates/partials')
 app.use(express.static(publicDirectoryPath))
 
+hbs.registerPartials(partialsPath)
 app.set("view engine","hbs")
-const viewspath = path.join(__dirname,"../views")
-app.set("views",viewspath)
+app.set("views",viewsPath)
 
 
 ////////////////////////////////////////////////////////
@@ -38,7 +41,11 @@ const reservationRouter = require('./routers/reservation')
 const roomRouter = require('./routers/room')
 
 app.get("/",(req,res)=>{
-    res.render("login.hbs")
+    res.render("index.hbs")
+})
+
+app.get("/reservation",(req,res)=>{
+    res.render("reservation.hbs")
 })
 
 app.use(userRouter)

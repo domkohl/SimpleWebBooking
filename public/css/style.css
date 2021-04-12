@@ -1,0 +1,211 @@
+.section .section-center {
+	top: 50%;
+	left: 0;
+	right: 0;
+	padding:10px
+}
+
+#booking {
+	font-family: 'Montserrat', sans-serif;
+	background-size: cover;
+	background-position: center;
+}
+
+.booking-form {
+	background-color: #fff;
+	padding: 50px 20px;
+	-webkit-box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3);
+	border-radius: 4px;
+}
+
+.booking-form .form-group {
+	position: relative;
+	margin-bottom: 30px;
+}
+
+.booking-form .form-control {
+	background-color: #ebecee;
+	border-radius: 4px;
+	border: none;
+	height: 40px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	color: #3e485c;
+	font-size: 14px;
+}
+
+.booking-form .form-control::-webkit-input-placeholder {
+	color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form .form-control:-ms-input-placeholder {
+	color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form .form-control::placeholder {
+	color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form input[type="date"].form-control:invalid {
+	color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form select.form-control {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+.booking-form select.form-control+.select-arrow {
+	position: absolute;
+	right: 0px;
+	bottom: 4px;
+	width: 32px;
+	line-height: 32px;
+	height: 32px;
+	text-align: center;
+	pointer-events: none;
+	color: rgba(62, 72, 92, 0.3);
+	font-size: 14px;
+}
+
+.booking-form select.form-control+.select-arrow:after {
+	content: '\279C';
+	display: block;
+	-webkit-transform: rotate(90deg);
+	transform: rotate(90deg);
+}
+
+.booking-form .form-label {
+	display: inline-block;
+	color: #3e485c;
+	font-weight: 700;
+	margin-bottom: 6px;
+	margin-left: 7px;
+}
+
+.booking-form .submit-btn {
+	display: inline-block;
+	color: #fff;
+	background-color: #1e62d8;
+	font-weight: 700;
+	padding: 14px 30px;
+	border-radius: 4px;
+	border: none;
+	-webkit-transition: 0.2s all;
+	transition: 0.2s all;
+}
+
+.booking-form .submit-btn:hover,
+.booking-form .submit-btn:focus {
+	opacity: 0.9;
+}
+
+.booking-cta {
+	margin-top: 80px;
+	margin-bottom: 30px;
+}
+
+.booking-cta h1 {
+	font-size: 52px;
+	text-transform: uppercase;
+	color: #fff;
+	font-weight: 700;
+}
+
+.booking-cta p {
+	font-size: 16px;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+/*MOJE STYLY */
+
+/*ODKAZY*/
+   
+    /*odkazy v menu*/
+    a:hover,a:active, a:link, a:visited {text-decoration:none;color:black;}
+    a:active {color: rgb(19, 172, 57);font-style: italic;}                               
+    a:hover {color: rgb(19, 172, 57)}
+    
+    /*odkaz v tabulce*/
+    a.Vtabulce:hover,a.Vtabulce:active, a.Vtabulce:link,a.Vtabulce:visited {text-decoration:none;color:blue;}
+    a.Vtabulce:active {font-style: italic;}                               
+    
+     
+/*OBECNÉ STYLOVÁNÍ*/
+    
+    /*body*/        
+     body {background-image: url("../img/background.jpg");background-attachment:fixed;  background-position:center;  background-size:cover;  background-repeat: no-repeat; width: 70%; height: 1000;margin: auto}
+           
+    /*hlavnÍ nadpis*/                          
+    .nadpis{margin:5px;width:99%;height:auto;border:2px solid black;}                 
+    .tisk2{display:none;}
+    
+    /*menu*/         
+    .navigace{height:28px;background-color:white;margin-bottom:10px;margin-left:5px;margin-right:5px;font-family:Georgia;border:2px solid black;} 
+    .vpravoNav{float:right;padding:5px}  
+    .vlevoNav{float:left;padding:5px}
+
+     /*zÁpatÍ*/
+     .footer{background-color:#858585;padding:0.02px;text-align:center;border:2px solid black;margin:5px;}
+  
+	/*šedé podbarvení*/
+	.malynadpis{padding:5px;background-color:#d0d0d0;margin-top:10px;margin-left:-5px;margin-right:-5px;}
+	.dopln{margin-left:5px;margin-right:5px;}
+
+    /* různá pravidla pro články*/
+     .clanek{height:auto;font-family:Georgia;margin:5px;border:2px solid black;background-color:white;width:78%;height: 480px;}
+     .odstavec{margin:10px;}
+     .panel{background-color:white;border:2px solid black;margin-left:5px;margin-right:5px;margin-bottom:5px;font-family:Georgia;float:right;width:20%;height:480px;}
+     .clanekSiroky{font-family:Georgia;margin:5px;border:2px solid black;background-color:white;height: 450px;}  
+	 .clanekSiroky2{font-family:Georgia;margin:5px;border:2px solid black;background-color:white;height: 480px;} 
+	 .clanek2{font-family:Georgia;margin:5px;border:2px solid black;background-color:white;height: auto; padding-bottom:10px}       
+     .uprostred{display: block;margin-left: auto;margin-right: auto;width: 50%}
+     .uprostredtext{text-align:center;}
+     .vpravo{float:right;}  
+     .vlevo{float:left;margin:5px;}
+     .velke{font-size:30px;margin:10px;padding:5px;}
+	 .clanekL{float:left;width:48%;margin:5px;height:460px;}
+	 .clanekP{float:right;width:48%;margin:5px;height:460px;border:3px solid black;}
+	 .uprostredR{display: block;margin-left: auto;margin-right: auto;margin-top: 30px;width: 30%;border:2px solid black;}
+	 .uprostredText{text-align:center}
+	 .rozestup{margin:5px}
+	 .logo{height:20%;width: 20%;}
+	 .odsazeni0{padding-bottom:5px;margin-top:5px;margin-left:10px;;margin-right:10px;margin-bottom:-3px}
+     .uprava{font-size:13px;margin-bottom:5px}
+     .schovej{list-style-type:none;}
+     .panelS{background-color:white;border:2px solid black;margin-left:5px;margin-right:5px;margin-bottom:5px;height:auto;font-family:Georgia;padding:5px;}
+     .clanekS{font-family:Georgia;margin:5px;border:2px solid black;background-color:white;}
+	 .pismo{line-height: 1.5}
+	 .tabulka {float: left;margin-left: 10px;margin-bottom: 5px;border-collapse: collapse;}
+	 
+
+                                                                                                 
+/*GALERIE*/
+
+    /*pravidla pro galerii*/
+	* {box-sizing: border-box;}
+     .row > .column { padding: 0 8px;}
+     .row:after {content: "";display: table;clear: both;}
+     .modal {display: none;position: fixed;z-index: 1;padding-top: 100px;left: 0;top: 0;width: 100%;height: 100%;overflow: auto;background-color: black;}
+     .modal-content {position: relative;background-color: #fefefe;margin: auto;padding: 0;width:800px;}
+     .close {color: white;position: absolute;top: 10px;right: 25px;font-size: 35px;font-weight: bold;}
+     .close:hover,.close:focus {color: #999;text-decoration: none;cursor: pointer;}
+     .mySlides {display: none;}
+     .sirka1{width:100%}
+	 .sirka2{width:80%}
+     .cursor {cursor: pointer;}
+     .prev,.next {cursor: pointer;position: absolute;top: 50%;width: auto;padding: 16px;margin-top: -50px;color: white;font-weight: bold;font-size: 20px;transition: 0.6s ease;border-radius: 0 3px 3px 0;user-select: none;-webkit-user-select: none;}
+     .next {right: 0;border-radius: 3px 0 0 3px;}
+     .prev:hover,.next:hover {background-color: rgba(0, 0, 0, 0.8);}
+     img {margin-bottom: -4px;}
+     .caption-container {text-align: center;background-color: black;padding: 2px 16px;color: white;}
+     .demo {opacity: 0.6;}
+     .active,.demo:hover {opacity: 1;}
+     img.hover-shadow {transition: 0.3s;}
+     .hover-shadow:hover {box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
+     .column{float:left;width:25%;margin-bottom:10px;}  						  
+
+
+

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--HLAVNÍ STRÁNKA-->
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<title>Studentský projekt Kohl & Nosek</title>
+	<link rel="icon" href="img/uhk.png" type="image/png" sizes="16x16">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+	<!-- styly-->
+	<!--<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />-->
+	<link type="text/css" rel="stylesheet" href="css/style.css" />
+
+	<!-- ikona -->
+	<link rel="icon" href="img/uhk.png" type="image/png" sizes="16x16">
+</head>
+
+<body>
+
+	<!-- nadpis -->
+	<header>
+		<img src="img/logo.png" class="nadpis" alt="Hotel Kohl & Nosek">
+	</header>
+
+	<!-- navigace -->
+	<nav class="navigace">
+		<nav class="vlevoNav">
+			<a href='/'>HLAVNÍ STRÁNKA </a>|
+			<a href='/reservation'>REZERVACE </a>|
+			<a href='/users/me'>PROFIL </a>
+		</nav>
+		<nav class="vpravoNav">
+			<a href='/register'>REGISTRACE </a>|
+			<a href='/login'>LOGIN</a>
+		</nav>
+	</nav>
+
+	<!-- postraní panel -->
+	<aside class="panel">
+		<h2 class="malynadpis dopln ">Novinky</h2>
+		<section class="odstavec">
+			<h3>Jarní slevy</h3>
+			<p class="pismo">Na všechny pokoje máme nyní slevy až 30%. Neváhejte a kupujte.</p>
+			<h3>Krásná příroda</h3>
+			<p class="pismo">Kolem našeho hotelu vykvetly vzácné rostliny. Přijede se na ně podívat i Vaše rodina?</p>
+		</section>
+	</aside>
+
+
+	<!--1.clanek-tabulka-->
+	<article class="clanek">
+		<h2 class="malynadpis dopln ">Základní info</h2>
+		<div class="odstavec">
+			<img src="img/icon.png" class="logo vlevo">
+			<h3 class="dopln">O nás</h3>
+			<p class="pismo">
+				Chcete být v jednom z nejkrásnějších míst České republiky? Přejete si být chvilku v klidu nebo s
+				přáteli v hotelu, který se nachází na horách? Hotel Kohl & Nosek je zasazený do překrásné scenérie
+				okolních hor.
+				Místo, kde zažijete spousty krásných chvil na cestách po zdejších horách nebo při společném posezení s
+				přáteli.
+				Místo pro strávení příjemné zimní i letní dovolené, která přinese uspokojení Vám a hlavně vašim dětem.
+			</p>
+		</div>
+		<div class="odstavec">
+			<h3 class="dopln">Další informace</h3>
+			<p class="pismo dopln">Hotel Kohl & Nosek nabízí celoroční ubytování, a možnost krásných procházek v okolí
+				Krkonoš. Jako služby
+				nabízíme internet, parkovoště, restauraci nebo také úchovnu kol a lyží. Pro bližsí informace se můžete
+				koukout do naší galerie, kde se nachází
+				nejen fotky našich pokojů, ale také okolí kolem hotelu.
+			</p>
+			<h3 class="dopln">Kontakt</h3>
+			<p class="dopln">Email: projekt@projekt.cz</p>
+			<p class="dopln"> Telefon: +420 999 999 999</p>
+			</p>
+		</div>
+
+	</article>
+
+	<!--Galerie-->
+	<div class="clanek2">
+		<script src="galerie.js"></script>
+		<h2 class="malynadpis dopln">Galerie</h2>
+
+		<!--obrázky na hlavní stránce-->
+		<div class="row">
+			<div class="column">
+				<img src="img/obr1.jpg" onclick="openModal();currentSlide(1)" class="hover-shadow cursor sirka1"
+					alt="Hotelový pokoj-1" title="Hotelový pokoj-1">
+			</div>
+			<div class="column">
+				<img src="img/obr2.jpg" onclick="openModal();currentSlide(2)" class="hover-shadow cursor sirka1"
+					alt="Hotelový pokoj-2" title="Hotelový pokoj-2">
+			</div>
+			<div class="column">
+				<img src="img/obr3.jpg" onclick="openModal();currentSlide(3)" class="hover-shadow cursor sirka1"
+					alt="Příroda-1" title="Příroda-1">
+			</div>
+			<div class="column">
+				<img src="img/obr4.jpg" onclick="openModal();currentSlide(4)" class="hover-shadow cursor sirka1"
+					alt="Koupelna-1" title="Koupelna-1">
+			</div>
+			<div class="column">
+				<img src="img/obr5.jpg" onclick="openModal();currentSlide(5)" class="hover-shadow cursor sirka1"
+					alt="Hotelový pokoj-3" title="Hotelový pokoj-3">
+			</div>
+			<div class="column">
+				<img src="img/obr6.jpg" onclick="openModal();currentSlide(6)" class="hover-shadow cursor sirka1"
+					alt="Příroda-2" title="Příroda-2">
+			</div>
+			<div class="column">
+				<img src="img/obr7.jpg" onclick="openModal();currentSlide(7)" class="hover-shadow cursor sirka1"
+					alt="Příjezdová cesta" title="Příjezdová cesta">
+			</div>
+			<div class="column">
+				<img src="img/obr8.jpg" onclick="openModal();currentSlide(8)" class="hover-shadow cursor sirka1"
+					alt="Koupelna-2" title="Koupelna-2">
+			</div>
+		</div>
+
+		<!--obrázky v náhledu-->
+		<div id="myModal" class="modal">
+			<span class="close cursor" onclick="closeModal()">&times;</span>
+			<div class="modal-content">
+				<div class="mySlides">
+					<img src="img/obr1.jpg" class="sirka1" alt="Hotelový pokoj-1">
+				</div>
+				<div class="mySlides">
+					<img src="img/obr2.jpg" class="sirka1" alt="Hotelový pokoj-2">
+				</div>
+				<div class="mySlides">
+					<img src="img/obr3.jpg" class="sirka1" alt="Příroda-1">
+				</div>
+				<div class="mySlides">
+					<img src="img/obr4.jpg" class="sirka1" alt="Koupelna-1">
+				</div>
+				<div class="mySlides">
+					<img src="img/obr5.jpg" class="sirka1" alt="Hotelový pokoj-3">
+				</div>
+				<div class="mySlides">
+					<img src="img/obr6.jpg" class="sirka1" alt="Příroda-2">
+				</div>
+				<div class="mySlides">
+					<img src="img/obr7.jpg" class="sirka1" alt="Příjezdová cesta">
+				</div>
+				<div class="mySlides">
+					<img src="img/obr8.jpg" class="sirka1" alt="Koupelna-2">
+				</div>
+
+				<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+				<a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+				<div class="caption-container">
+					<p id="caption"></p>
+				</div>
+
+				<!--malé obrázky pod náhledem -->
+				<div class="column">
+					<img class="demo cursor sirka2" src="img/obr1.jpg" onclick="currentSlide(1)" alt=" 1 z 8 ">
+				</div>
+				<div class="column">
+					<img class="demo cursor sirka2" src="img/obr2.jpg" onclick="currentSlide(2)" alt=" 2 z 8 ">
+				</div>
+				<div class="column">
+					<img class="demo cursor sirka2" src="img/obr3.jpg" onclick="currentSlide(3)" alt=" 3 z 8 ">
+				</div>
+				<div class="column">
+					<img class="demo cursor sirka2" src="img/obr4.jpg" onclick="currentSlide(4)" alt=" 4 z 8 ">
+				</div>
+				<div class="column">
+					<img class="demo cursor sirka2" src="img/obr5.jpg" onclick="currentSlide(5)" alt=" 5 z 8 ">
+				</div>
+				<div class="column">
+					<img class="demo cursor sirka2" src="img/obr6.jpg" onclick="currentSlide(6)" alt=" 6 z 8 ">
+				</div>
+				<div class="column">
+					<img class="demo cursor sirka2" src="img/obr7.jpg" onclick="currentSlide(7)" alt=" 7 z 8 ">
+				</div>
+				<div class="column">
+					<img class="demo cursor sirka2" src="img/obr8.jpg" onclick="currentSlide(8)" alt=" 8 z 8 ">
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--KONEC PRAVIDEL PRO GALERII-->
+
+	<!-- zápatí-->
+	<div class="footer">
+		<p> &copy;2021 | Dominik Kohl & Karel Nosek - studentský zápočtový projekt</p>
+	</div>
+
+	
+</body>
+
+</html>
