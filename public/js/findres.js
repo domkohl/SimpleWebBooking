@@ -1,35 +1,87 @@
+function renderTable(listReservations){
+
+    // Extract value from table header. 
+    // ('Book ID', 'Book Name', 'Category' and 'Price')
+    var col = ["Stav","Check-In","Check-out","Pokoj","resID"];
+
+    // Create a table.
+    var table = document.createElement("table");
+    table.classList.add("tableUser")
+
+    // Create table header row using the extracted headers above.
+    var tr = table.insertRow(-1);                   // table row.
+
+    for (var i = 0; i < col.length; i++) {
+        var th = document.createElement("th"); 
+        th.classList.add("tableUserCell")     // table header.
+        th.innerHTML = col[i];
+        tr.appendChild(th);
+    }
+
+    var colFull = ["status","checkIn","checkOut","room","_id"];
+
+        // add json data to the table as rows.
+    for (var i = 0; i < listReservations.length; i++) {
+
+        tr = table.insertRow(-1);
+        tr.classList.add("tableUserRow")
+        tr.setAttribute("onclick",`window.location.href = '/reservation/${listReservations[i]._id}';`)  
+        
+
+        for (var j = 0; j < col.length; j++) {
+            var tabCell = tr.insertCell(-1);
+            tabCell.classList.add("tableUserCell")
+            tabCell.innerHTML = listReservations[i][colFull[j]];;
+        }
+    }
+    var divShowData = document.getElementById('showRes');
+    divShowData.innerHTML = "";
+    divShowData.appendChild(table);
+
+}
 
 
-async function userRegistration(event){
+async function findReservations(event){
     event.preventDefault()
     console.log("testsubmit")
 
-    const username = document.getElementById("ckeckIn").value
-    const email = document.getElementById("email").value
-    const password = document.getElementById("password").value
-    console.log(username)
-    const result = await fetch("/api/register",{
-        method: "POST",
-        headers:{ "Content-Type": "application/json"},
-        body: JSON.stringify({
-            username,
-            email,
-            password
-        })
-    })
+    const checkIn = document.getElementById("ckeckIn").value
+    const checkOut = document.getElementById("ckeckOut").value
 
-        const finnalResult =  await result.json()
-        
+    // console.log(checkIn)
+    // console.log(checkOut)
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("checkin", checkIn);
+    myHeaders.append("checkout", checkOut);
+
+    var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow'
+    };
+    const result = await fetch("/api/reservation-date", requestOptions)
+    const finnalResult = await result.json()
+        console.log(finnalResult)
         if(finnalResult.status === "ok"){
             //vse v proadku
-            alert("Registrac uspesna")
+            alert("Terminy vyhledany")
+            renderTable(finnalResult.rooms)
         }else{
             alert(finnalResult.error)
         }
+
+
+
+        
+
+
+
+
 
 }
 
 
 
 
-document.getElementById("findres").addEventListener("submit",userRegistration)
+document.getElementById("findres").addEventListener("submit",findReservations)

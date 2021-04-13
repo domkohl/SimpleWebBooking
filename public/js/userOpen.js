@@ -3,6 +3,49 @@ document.getElementById("adresa").disabled = true;
 document.getElementById("vek").disabled = true;
 const token = sessionStorage.getItem("token")
 
+function renderTable(listReservations){
+
+        // Extract value from table header. 
+        // ('Book ID', 'Book Name', 'Category' and 'Price')
+        var col = ["Stav","Check-In","Check-out","Pokoj","resID"];
+
+        // Create a table.
+        var table = document.createElement("table");
+        table.classList.add("tableUser")
+
+        // Create table header row using the extracted headers above.
+        var tr = table.insertRow(-1);                   // table row.
+
+        for (var i = 0; i < col.length; i++) {
+            var th = document.createElement("th"); 
+            th.classList.add("tableUserCell")     // table header.
+            th.innerHTML = col[i];
+            tr.appendChild(th);
+        }
+
+        var colFull = ["status","checkIn","checkOut","room","_id"];
+
+            // add json data to the table as rows.
+        for (var i = 0; i < listReservations.length; i++) {
+
+            tr = table.insertRow(-1);
+            tr.classList.add("tableUserRow")
+            tr.setAttribute("onclick",`window.location.href = '/reservation/${listReservations[i]._id}';`)  
+            
+
+            for (var j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1);
+                tabCell.classList.add("tableUserCell")
+                tabCell.innerHTML = listReservations[i][colFull[j]];;
+            }
+        }
+        var divShowData = document.getElementById('showRes');
+        divShowData.innerHTML = "";
+        divShowData.appendChild(table);
+
+}
+
+
 if(token === null || token === undefined){
     alert("Prosim prihlaste se ")
 }else{
@@ -19,7 +62,9 @@ if(token === null || token === undefined){
               document.getElementById("jmenouzivatele").value = result.user.username
               document.getElementById("adresa").value = result.user.adress
               document.getElementById("vek").value = result.user.age
-              console.log(result)
+            //   console.log(result.reservation)
+              renderTable(result.reservation)
+            //   tableClicling()
           })
           .catch(error => console.log('error', error));
     }
@@ -90,6 +135,5 @@ function allowChanges(){
     document.getElementById("adresa").disabled = false;
     document.getElementById("vek").disabled = false;
 }
-
 
 document.getElementById("povolzmeny").addEventListener("click",allowChanges)

@@ -18,9 +18,6 @@ router.get("/profil",(req,res)=>{
     res.render("user.hbs")
 })
 
-router.get("/change-password",(req,res)=>{
-    res.render("changepassword.hbs")
-})
 
 router.post("/api/register",async (req,res)=>{
 

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--EDITACE REZERVACE-->
+
+<head>
+    {{>head}}
+</head>
+
+<body>
+
+  {{>header}}
+
+    <!--prostřední část-->
+    <div class="clanek2">
+        <div class="uprostredR">
+            <h2 class="uprostredText">Úprava rezervace</h2>
+            <form id="editRezervation">
+                <table class="table">
+                    <tr>
+                        <td>
+                            <label class="rozestup" for="datumprijezdu">Datum příjezdu</label>
+                        </td>
+                        <td>
+                            <input class="rozestup" id="datumprijezdu" name="datumprijezdu" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="rozestup" for="datumodjezdu">Datum odjezdu</label>
+                        </td>
+                        <td>
+                            <input class="rozestup"  id="datumodjezdu" name="datumodjezdu" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="rozestup" for="status">Status</label>
+                        </td>
+                        <td>
+                            <input class="rozestup" type="text" id="status" name="status" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="rozestup" for="nazevpokoje">Název pokoje</label>
+                        </td>
+                        <td>
+                            <input class="rozestup" type="text" id="nazevpokoje" name="nazevpokoje" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="rozestup" for="pokojid">ID Pokoje</label>
+                        </td>
+                        <td>
+                            <input class="rozestup" type="text" id="pokojid" name="pokojid" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="rozestup" id="removeReservation" type="button">Smazat</button>
+                        </td>
+                        <td>
+                            <button class="rozestup" type="submit">Uložit</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <!-- zápatí-->
+{{>footer}}
+<script src="/js/editResOpen.js"></script>
+</body>
+
+</html>

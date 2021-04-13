@@ -39,23 +39,43 @@ router.delete("/api/reservation/:id",auth,async (req,res)=>{
     // console.log(req.params.id)
     
     try {
-        let reservation = await Reservation.findOneAndDelete({ _id: req.params.id, owner: req.body.user._id })
+        let reservation = await Reservation.findOne({ _id: req.params.id, owner: req.body.user._id })
         if(req.body.user.role === ROLE.ADMIN){
-            reservation = await Reservation.findOneAndDelete({ _id: req.params.id})
+            reservation = await Reservation.findOne({ _id: req.params.id})
         }
 
         if (!reservation) {
             return res.status(404).send()
         }
 
-        res.json({status:"ok",reservation})
+        reservation = await Reservation.findOneAndDelete({ _id: req.params.id, owner: req.body.user._id })
+        if(req.body.user.role === ROLE.ADMIN){
+        reservation = await Reservation.findOneAndDelete({ _id: req.params.id})
+        }
+
+        res.json({status:"ok"})
     } catch (error) {
         console.log(error.message)
-        res.json({status:"error",error:"Nepodarilo se smazat"})
+        res.send({status:"error",error:"Nepodarilo se smazat"})
 
     }
 
 })
+router.get("/reservation/:id",async (req,res)=>{
+    res.render("editRezervation.hbs")
+})
+
+router.get("/api/reservation/:id",authenticateToken,async (req,res)=>{
+    try {
+        Res = await Reservation.findOne({ _id: req.params.id,owner:req.body.user._id})
+        roomName = await Room.findOne({_id: Res.room})
+        res.send({checkIn: Res.checkIn, checkOut: Res.checkOut,status: Res.status,roomId: Res.room, nameRoom:roomName.name})
+    } catch (error) {
+        res.send({status:"error",error:"Nepodarilo najit"})
+    }
+})
+
+
 
 router.patch("/api/reservation/:id",auth,async (req,res)=>{
     
@@ -78,10 +98,10 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
         if(tmpRes === null){
             throw new Error('Rezervace nenalezena')
         }
-        console.log(req.body)
+        // console.log(req.body)
         tmpCheckIn = tmpRes.checkIn
         tmpCheckOut = tmpRes.checkOut
-        console.log(req.body)
+        // console.log(req.body)
     
         const {checkIn,checkOut,room} = req.body
 
@@ -137,10 +157,10 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
 
 router.get("/api/reservation-date",async (req,res)=>{
 
-    const {checkIn,checkOut} = req.body
+    const {checkin,checkout} = req.headers
 
-    const checkInDate = new Date(checkIn);
-    const checkOutDate = new Date(checkOut);
+    const checkInDate = new Date(checkin);
+    const checkOutDate = new Date(checkout);
 
     if(checkInDate>=checkOutDate){
         res.json({status:"error",error:"Spatne zadaní termínu"})
@@ -151,8 +171,8 @@ router.get("/api/reservation-date",async (req,res)=>{
         const toRemove =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate}})
         let rooms = await Room.find({})
 
-        console.log(rooms)
-        console.log(toRemove)
+        // console.log(rooms)
+        // console.log(toRemove)
     if(!toRemove.length == 0){
 
         // const outPut = rooms.filter(x =>{
@@ -162,12 +182,12 @@ router.get("/api/reservation-date",async (req,res)=>{
 
         rooms = rooms.filter(room => !toRemove.find(reservation => (reservation.room.toString() === room._id.toString()) ))
 
-        console.log(rooms)
+        // console.log(rooms)
 
-        res.json(rooms)
+        res.send({rooms,status:"ok"})
         return
     }else{
-        res.json(rooms)
+        res.send({rooms,status:"ok"})
     }
 
     } catch (error) {
@@ -204,6 +224,31 @@ async function dateAllowed(req,res,next){
     }
     next()
 }
+const jwt = require('jsonwebtoken')
+async function authenticateToken(req, res, next) {
+    // console.log(req.headers)
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    // console.log(req.headers)
+    if (token == null) return res.sendStatus(401)
+    try {
+        const decoded = jwt.verify(token, 'Valentýn')
+        const user = await User.findOne({ _id: decoded.id, 'tokens.token': token })
+    
+        if (!user) {
+            throw new Error()
+        }
+
+        // console.log(req.body)
+        req.body.token = token
+        req.body.user = user
+        // console.log(req.body)
+        next()
+    } catch (e) {
+        console.log(e.message)
+        res.status(401).send({ error: 'Prokažte svou totožnost.' })
+    }
+  }
 
 
 module.exports = router
