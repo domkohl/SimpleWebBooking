@@ -4,7 +4,7 @@
 <!--REZERVACE TERMÍNU-->
 
 <head>
-	<meta charset="utf-8">
+		<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -23,23 +23,7 @@
 
 <body>
 
-	<!-- nadpis -->
-	<header>
-		<img src="img/logo.png" class="nadpis" alt="Hotel Kohl & Nosek">
-	</header>
-
-	<!-- navigace -->
-	<nav class="navigace">
-		<nav class="vlevoNav">
-			<a href='index.html'>HLAVNÍ STRÁNKA </a>|
-			<a href='rezervation.html'>REZERVACE </a>|
-			<a href='profile.html'>PROFIL </a>
-		</nav>
-		<nav class="vpravoNav">
-			<a href='registration.html'>REGISTRACE </a>|
-			<a href='login.html'>LOGIN</a>
-		</nav>
-	</nav>
+{{>header}}
 
 	<!--prostřední část-->
 	<div class="clanekSiroky2">
@@ -123,9 +107,7 @@
 	</div>
 
 	<!-- zápatí-->
-	<div class="footer">
-		<p> &copy;2021 | Dominik Kohl & Karel Nosek - studentský zápočtový projekt</p>
-	</div>
+{{>footer}}
 	<script src="/js/findres.js"></script>
 
 </body>

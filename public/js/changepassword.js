@@ -11,7 +11,7 @@ async function userRegistration(event){
         headers:{ "Content-Type": "application/json"},
         body: JSON.stringify({
             newPassword: password,
-            token:localStorage.getItem("token")
+            token:sessionStorage.getItem("token")
         })
     })
 

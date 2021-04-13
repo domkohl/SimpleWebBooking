@@ -31,7 +31,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minlength: 8,
         trim: true,
         validate(value) {
             if (!validator.isStrongPassword(value,{minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1,minSymbols: 0})) {
@@ -108,6 +107,7 @@ userSchema.methods.toJSON = function () {
     const userObject = user.toObject()
     delete userObject.password
     delete userObject.tokens
+    delete userObject.role
     return userObject
 }
 

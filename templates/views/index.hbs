@@ -4,42 +4,12 @@
 <!--HLAVNÍ STRÁNKA-->
 
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-	<title>Studentský projekt Kohl & Nosek</title>
-	<link rel="icon" href="img/uhk.png" type="image/png" sizes="16x16">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
-
-	<!-- styly-->
-	<!--<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />-->
-	<link type="text/css" rel="stylesheet" href="css/style.css" />
-
-	<!-- ikona -->
-	<link rel="icon" href="img/uhk.png" type="image/png" sizes="16x16">
+{{>head}}
 </head>
 
 <body>
 
-	<!-- nadpis -->
-	<header>
-		<img src="img/logo.png" class="nadpis" alt="Hotel Kohl & Nosek">
-	</header>
-
-	<!-- navigace -->
-	<nav class="navigace">
-		<nav class="vlevoNav">
-			<a href='/'>HLAVNÍ STRÁNKA </a>|
-			<a href='/reservation'>REZERVACE </a>|
-			<a href='/users/me'>PROFIL </a>
-		</nav>
-		<nav class="vpravoNav">
-			<a href='/register'>REGISTRACE </a>|
-			<a href='/login'>LOGIN</a>
-		</nav>
-	</nav>
+{{>header}}
 
 	<!-- postraní panel -->
 	<aside class="panel">
@@ -86,7 +56,7 @@
 
 	<!--Galerie-->
 	<div class="clanek2">
-		<script src="galerie.js"></script>
+		<script src="js/galerie.js"></script>
 		<h2 class="malynadpis dopln">Galerie</h2>
 
 		<!--obrázky na hlavní stránce-->
@@ -191,10 +161,7 @@
 	</div>
 	<!--KONEC PRAVIDEL PRO GALERII-->
 
-	<!-- zápatí-->
-	<div class="footer">
-		<p> &copy;2021 | Dominik Kohl & Karel Nosek - studentský zápočtový projekt</p>
-	</div>
+{{>footer}}
 
 	
 </body>

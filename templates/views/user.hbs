@@ -1,37 +1,81 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Váš profil</title>
-    </head>
+<html lang="en">
 
-    <body>
-<h1>Váš profil</h1>
-<h1>{{username}}</h1>
+<!--PROFIL UŽIVATELE-->
 
+<head>
+{{>head}}
+</head>
 
-<table>
-        <tr>
-            <th>Pokoj</th>
-            <th>Stav</th>
-            <th>Check-IN</th>
-            <th>Check-OUT</th>
-        </tr>
-     {{#each reservations}}
-        <tr>
-            <td>{{this._id}}</td>
-            <td>{{this.status}}</td>
-            <td><input value='{{this.description}}'></td>
-            <td>{{this.completed}}</td>
-            <td><select value={{this.completed}}>  
-                <option value="true">true</option>
-                <option value="false">false</option>
-                </select>                
-            </td>  
-            <td><button>Aktualizovat</button></td>
-            <td><button>Odstranit</button></td>
-        </tr>
-    {{/each}}
-</table>
+<body>
+{{>header}}
+	<!-- nadpis -->
 
+	<!--prostřední část-->
+	<div class="clanekSiroky2">
+		<div class="clanekL">
+			<h2 class="malynadpis dopln ">Profil</h2>
+			<form id="profile">
+				<table class="table">
+					<tr>
+						<td>
+							<label class="rozestup" for="jmenouzivatele">Jméno uživatele</label>
+						</td>
+						<td>
+							<input class="rozestup" type="text" id="jmenouzivatele" name="jmenouzivatele" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="rozestup" for="adresa">Adresa</label>
+						</td>
+						<td>
+							<input class="rozestup" type="text" id="adresa" name="adresa" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="rozestup" for="vek">Věk</label>
+						</td>
+						<td>
+							<input class="rozestup" type="number" id="vek" name="vek" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button class="rozestup" id="povolzmeny" type="button">Změnit údaje</button>
+						</td>
+						<td>
+							<button class="rozestup" type="submit">Uložit</button>
+						</td>
+					</tr>
+				</table>
+                </form>
+                <form id="change-password">
+				<h2 class="malynadpis dopln ">Změna hesla</h2>
+				<table class="table">
+					<tr>
+						<td>
+							<label class="rozestup" for="zmenahesla">Nové heslo</label>
+						</td>
+						<td>
+							<input class="rozestup" type="password" id="zmenahesla" name="zmenahesla" required>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button class="rozestup" type="submit">Změnit heslo</button>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div class="clanekP">
+		</div>
+	</div>
+
+{{>footer}}
+<script src="/js/userOpen.js"></script>
 </body>
+
 </html>

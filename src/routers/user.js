@@ -14,6 +14,10 @@ router.get("/register",(req,res)=>{
     res.render("register.hbs")
 })
 
+router.get("/profil",(req,res)=>{
+    res.render("user.hbs")
+})
+
 router.get("/change-password",(req,res)=>{
     res.render("changepassword.hbs")
 })
@@ -115,20 +119,22 @@ router.get('/users/me',authenticateToken, async (req, res) => {
     // console.log(req.body.user.username)
     // console.log(scopedReservations(req.body.user))
     // console.log(req._id)
-    res.render('user.hbs', {
-        username: req.body.user.username,
-        reservations: await scopedReservations(req.body.user)
-        // user: req.user.name
-    })
+//predelat
+
+    // res.send('user.hbs', {
+    //     username: req.body.user.username,
+    //     reservations: await scopedReservations(req.body.user)
+    //     // user: req.user.name
+    // })
+    res.send({user: req.body.user ,reservation: await scopedReservations(req.body.user)})
 })
 
-
 router.patch('/users/me', auth, async (req, res) => {
-    console.log(req.body.params)
+    // console.log(req.body.params)
     const updates = Object.keys(req.body.params)
     const allowedUpdates = ['username', 'email', 'password', 'age', "adress"]
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
-
+    console.log(isValidOperation)
     if (!isValidOperation) {
         return res.status(400).send({ error: 'Neplatná aktualizace!' })
     }
@@ -139,7 +145,7 @@ router.patch('/users/me', auth, async (req, res) => {
         res.json({status:"ok"})
     } catch (e) {
         console.log(e.message)
-        res.status(400).send(e.message)
+        res.send({status: "error",error: e.message})
     }
 
 })
