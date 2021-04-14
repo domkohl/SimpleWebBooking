@@ -14,6 +14,9 @@ const router = new express.Router()
 router.post("/api/reservation",auth,dateAllowed,async (req,res)=>{
 
     const {checkIn,checkOut,room} = req.body
+    // const checkInDate = new Date(checkIn);
+    // const checkOutDate = new Date(checkOut);
+
     const owner = req.body.user._id
 
     try {
@@ -26,7 +29,7 @@ router.post("/api/reservation",auth,dateAllowed,async (req,res)=>{
     })
     res.json({status:"ok"})
     } catch (error) {
-        // console.log(error.message)
+        console.log(error.message)
         res.json({status:"error",error:"spatne zadani terminu"})
 
     }
