@@ -1,5 +1,5 @@
 const token = sessionStorage.getItem("token")
-
+document.getElementById("pokojid").disabled = true;
 
 if(token === null || token === undefined){
     alert("Prosim prihlaste se ")
@@ -16,10 +16,45 @@ if(token === null || token === undefined){
     fetch("/api/reservation/"+id, requestOptions)
       .then(response => response.json())
       .then(result => {
-          document.getElementById("datumprijezdu").value = result.checkIn
-          document.getElementById("datumodjezdu").value = result.checkOut
-          document.getElementById("status").value = result.status
-          document.getElementById("nazevpokoje").value = result.nameRoom
+
+          const checkInText= result.checkIn.split("T");
+          document.getElementById("datumprijezdu").setAttribute("value",checkInText[0])
+
+          const checkOutText = result.checkOut.split("T");
+          document.getElementById("datumodjezdu").setAttribute("value",checkOutText[0])
+
+
+
+        //   document.getElementById("status").value = result.status
+
+          const select = document.getElementById("status"); 
+          const options = ['pending','approved',"denied"]; 
+
+          for(var i = 0; i < options.length; i++) {
+                var opt = options[i];
+                var el = document.createElement("option");
+                el.textContent = opt;
+                el.value = opt;
+                if(result.status === opt){
+                    el.setAttribute("selected", "selected")
+                }
+                select.appendChild(el);
+          }
+        //   document.getElementById("nazevpokoje").value = result.nameRoom
+
+          const selectR = document.getElementById("nazevpokoje"); 
+          const optionsR = result.allRoomNames; 
+
+          for(var i = 0; i < options.length; i++) {
+                var opt = optionsR[i];
+                var el = document.createElement("option");
+                el.textContent = opt;
+                el.value = opt;
+                if(result.nameRoom === opt){
+                    el.setAttribute("selected", "selected")
+                }
+                selectR.appendChild(el);
+          }
           document.getElementById("pokojid").value = result.roomId
           console.log(result)
         //   tableClicling()
@@ -32,8 +67,10 @@ async function changeReservation(event){
 
     const checkIn = document.getElementById("datumprijezdu").value
     const checkOut = document.getElementById("datumodjezdu").value
-    const status =document.getElementById("status").value
-    const name =document.getElementById("pokojid").value
+    const elStatus = document.getElementById("status")
+    const status =elStatus.options[elStatus.selectedIndex].value
+    const elName = document.getElementById("nazevpokoje")
+    const name =elName.options[elName.selectedIndex].value
     // console.log(password)
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");

@@ -2,7 +2,7 @@ function renderTable(listReservations){
 
     // Extract value from table header. 
     // ('Book ID', 'Book Name', 'Category' and 'Price')
-    var col = ["Stav","Check-In","Check-out","Pokoj","resID"];
+    var col = ["Pokoj","Cena","Kapacita","PokojID"];
 
     // Create a table.
     var table = document.createElement("table");
@@ -18,14 +18,14 @@ function renderTable(listReservations){
         tr.appendChild(th);
     }
 
-    var colFull = ["status","checkIn","checkOut","room","_id"];
+    var colFull = ["name","price","capacity","_id"];
 
         // add json data to the table as rows.
     for (var i = 0; i < listReservations.length; i++) {
 
         tr = table.insertRow(-1);
         tr.classList.add("tableUserRow")
-        tr.setAttribute("onclick",`window.location.href = '/reservation/${listReservations[i]._id}';`)  
+        // tr.setAttribute("onclick",`window.location.href = '/reservation/${listReservations[i]._id}';`)  
         
 
         for (var j = 0; j < col.length; j++) {

@@ -67,9 +67,16 @@ router.get("/reservation/:id",async (req,res)=>{
 
 router.get("/api/reservation/:id",authenticateToken,async (req,res)=>{
     try {
-        Res = await Reservation.findOne({ _id: req.params.id,owner:req.body.user._id})
-        roomName = await Room.findOne({_id: Res.room})
-        res.send({checkIn: Res.checkIn, checkOut: Res.checkOut,status: Res.status,roomId: Res.room, nameRoom:roomName.name})
+        let Res = await Reservation.findOne({ _id: req.params.id,owner:req.body.user._id})
+        if(req.body.user.role === ROLE.ADMIN){
+            Res = await Reservation.findOne({ _id: req.params.id})
+        }
+        const roomName = await Room.findOne({_id: Res.room})
+        const allRooms = await Room.find({})
+        const allRoomsNames =[]
+        allRooms.forEach(room => allRoomsNames.push(room.name))
+        // console.log(allRoomsNames)
+        res.send({checkIn: Res.checkIn, checkOut: Res.checkOut,status: Res.status,roomId: Res.room, nameRoom:roomName.name,allRoomNames:allRoomsNames})
     } catch (error) {
         res.send({status:"error",error:"Nepodarilo najit"})
     }
@@ -85,6 +92,7 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
     let tmpCheckOut = null
     let  tmpRes = null
     try {
+
         if(req.body.user.role === ROLE.ADMIN){
         tmpRes = await Reservation.findOne({ _id: req.params.id})
         const delRes = await Reservation.findOneAndUpdate({ _id: req.params.id },{checkIn:null,
@@ -97,13 +105,22 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
 
         if(tmpRes === null){
             throw new Error('Rezervace nenalezena')
+            return
         }
         // console.log(req.body)
         tmpCheckIn = tmpRes.checkIn
         tmpCheckOut = tmpRes.checkOut
         // console.log(req.body)
-    
-        const {checkIn,checkOut,room} = req.body
+        const roomExist = await Room.findOne({name: req.body.room})
+        if(roomExist === null){
+            throw new Error('Pokoj nenalezen')
+            return
+        }
+        const idNewRoom = roomExist._id
+
+
+
+        const {checkIn,checkOut} = req.body
 
     
         const checkInDate = new Date(checkIn);
@@ -115,7 +132,7 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
             return
         }
         
-        const test =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"room":room})
+        const test =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"room":idNewRoom})
     
         if(!test.length == 0){
             throw new Error('Vybráný termín nebo jeho část je již rezervována')
@@ -126,7 +143,7 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
         if(req.body.user.role === ROLE.ADMIN){
         
             const reservation = await Reservation.findOneAndUpdate({ _id: req.params.id},{status:req.body.status,checkIn:req.body.checkIn,
-            checkOut:req.body.checkOut,room:req.body.room},{ useFindAndModify: false, new : true, runValidators : true})
+            checkOut:req.body.checkOut,room:idNewRoom},{ useFindAndModify: false, new : true, runValidators : true})
                 if (!reservation) {
                     throw new Error('Nenalezena rezevace v roli admin')
                     return res.status(404).send()
@@ -134,7 +151,7 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
                 res.json({status:"ok"})
         }else{
             const reservation = await Reservation.findOneAndUpdate({ _id: req.params.id},{status:"pending",checkIn:req.body.checkIn,
-                checkOut:req.body.checkOut,room:req.body.room},{ useFindAndModify: false, new : true, runValidators : true})
+                checkOut:req.body.checkOut,room:idNewRoom},{ useFindAndModify: false, new : true, runValidators : true})
                 if (!reservation) {
                     throw new Error('Nenalezena rezevace v roli basic')
                     return res.status(404).send()

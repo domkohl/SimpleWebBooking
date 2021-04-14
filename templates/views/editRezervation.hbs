@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<!--EDITACE REZERVACE-->
-
 <head>
     {{>head}}
 </head>
@@ -22,7 +19,7 @@
                             <label class="rozestup" for="datumprijezdu">Datum příjezdu</label>
                         </td>
                         <td>
-                            <input class="rozestup" id="datumprijezdu" name="datumprijezdu" required>
+                            <input class="rozestup" id="datumprijezdu" type="date" name="datumprijezdu" required>
                         </td>
                     </tr>
                     <tr>
@@ -30,7 +27,7 @@
                             <label class="rozestup" for="datumodjezdu">Datum odjezdu</label>
                         </td>
                         <td>
-                            <input class="rozestup"  id="datumodjezdu" name="datumodjezdu" required>
+                            <input class="rozestup"  id="datumodjezdu" type="date" name="datumodjezdu" required>
                         </td>
                     </tr>
                     <tr>
@@ -38,7 +35,9 @@
                             <label class="rozestup" for="status">Status</label>
                         </td>
                         <td>
-                            <input class="rozestup" type="text" id="status" name="status" required>
+                            <select class="rozestup" id="status" name="status" required>
+                            </select>
+                            {{!-- <input class="rozestup" type="text" id="status" name="status" required> --}}
                         </td>
                     </tr>
                     <tr>
@@ -46,7 +45,9 @@
                             <label class="rozestup" for="nazevpokoje">Název pokoje</label>
                         </td>
                         <td>
-                            <input class="rozestup" type="text" id="nazevpokoje" name="nazevpokoje" required>
+                            <select class="rozestup" type="text" id="nazevpokoje" name="nazevpokoje" required>
+                            </select>
+                            {{!-- <input class="rozestup" type="text" id="nazevpokoje" name="nazevpokoje" required> --}}
                         </td>
                     </tr>
                     <tr>

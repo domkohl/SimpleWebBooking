@@ -12,7 +12,7 @@ const Reservation = mongoose.model('Reservation', {
     status: {
         type: String,
         require: true,
-        enum: ['pending','approved']
+        enum: ['pending','approved',"denied"]
       },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
