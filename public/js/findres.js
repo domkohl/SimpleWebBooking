@@ -15,7 +15,7 @@ function renderTable(listReservations) {
     table.classList.add("tableUser")
     table.classList.add("tableRez")
     // Radek
-    const tr = table.insertRow(-1);
+    let tr = table.insertRow(-1);
     // Hlavička 
     for (let i = 0; i < col.length; i++) {
         const th = document.createElement("th");
@@ -89,7 +89,7 @@ async function saveRes() {
     const finnalResult = await result.json()
 
     if (finnalResult.status === "ok") {
-        alert("Termín uložen")
+        alert("Rezervace vytvořena")
         location.reload();
     } else {
         alert(finnalResult.error)

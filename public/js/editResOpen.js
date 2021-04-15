@@ -113,15 +113,15 @@ async function deleteReservation(event) {
         const finnalResult = await result.json()
         console.log(result)
         if (finnalResult.status === "ok") {
-            alert("Úspěšne smazáno")
-            window.location.replace("/profil");
+            alert("Úspěšně smazáno")
+            window.location.replace("/profil")
         } else {
             alert(finnalResult.error)
+            window.location.replace("/profil")
         }
-        window.location.replace("/profil")
     } catch (error) {
-        console.log("Rezervace nenalezena")
+        alert("Rezervace nenalezena")
+        window.location.replace("/profil")
     }
-    location.reload();
 }
 document.getElementById("removeReservation").addEventListener("click", deleteReservation)

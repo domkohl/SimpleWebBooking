@@ -14,7 +14,7 @@ function renderTable(listReservations) {
     const table = document.createElement("table");
     table.classList.add("tableUser")
     // Radek
-    const tr = table.insertRow(-1);
+    let tr = table.insertRow(-1);
     // Hlavička 
     for (let i = 0; i < col.length; i++) {
         let th = document.createElement("th");
