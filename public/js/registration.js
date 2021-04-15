@@ -1,35 +1,25 @@
-
-
-async function userRegistration(event){
+//Funkce pro registrace uživatele na serverus
+async function userRegistration(event) {
     event.preventDefault()
-    console.log("testsubmit")
-
     const username = document.getElementById("username").value
     const email = document.getElementById("email").value
     const password = document.getElementById("password").value
 
-    const result = await fetch("/api/register",{
+    const result = await fetch("/api/register", {
         method: "POST",
-        headers:{ "Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             username,
             email,
             password
         })
     })
-
-        const finnalResult =  await result.json()
-        
-        if(finnalResult.status === "ok"){
-            //vse v proadku
-            alert("Registrac uspesna")
-        }else{
-            alert(finnalResult.error)
-        }
-
+    const finnalResult = await result.json()
+    if (finnalResult.status === "ok") {
+        alert("Registrace úspěšná")
+        window.location.replace("/login")
+    } else {
+        alert(finnalResult.error)
+    }
 }
-
-
-
-
-document.getElementById("registration").addEventListener("submit",userRegistration)
+document.getElementById("registration").addEventListener("submit", userRegistration)
