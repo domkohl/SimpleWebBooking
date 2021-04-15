@@ -42,6 +42,7 @@ function renderTable(listReservations){
         var divShowData = document.getElementById('showRes');
         divShowData.innerHTML = "";
         divShowData.appendChild(table);
+        // console.log(listReservations)
 
 }
 
@@ -62,7 +63,16 @@ if(token === null || token === undefined){
               document.getElementById("jmenouzivatele").value = result.user.username
               document.getElementById("adresa").value = result.user.adress
               document.getElementById("vek").value = result.user.age
+
+                result.reservation.forEach(element => element.checkIn = element.checkIn.split("T")[0])
+                result.reservation.forEach(element => element.checkOut = element.checkOut.split("T")[0])
+
+                // const checkOutText = result.checkOut.split("T");
+                // document.getElementById("datumodjezdu").setAttribute("value",checkOutText[0])
+
             //   console.log(result.reservation)
+                // result.reservation
+
               renderTable(result.reservation)
             //   tableClicling()
           })
