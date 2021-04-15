@@ -172,6 +172,7 @@
 	 .clanekP{float:right;width:48%;margin:5px;height:480px;border:3px solid black}
 	 .clanekP2{float:right;width:48%;margin:5px;height:auto}
 	 .uprostredR{display: block;margin-left: auto;margin-right: auto;margin-top: 30px;width: 300px;border:2px solid black;}
+	 .uprostredR2{margin-left: auto;margin-right: auto;margin-top: 20px;width: 900px;border:2px solid black;margin-bottom:10px}
 	 .uprostredText{text-align:center}
 	 .rozestup{margin:5px}
 	 .logo{height:20%;width: 20%;}
@@ -217,6 +218,26 @@
   float: left;
   overflow-y: scroll;
 }
+
+       /* Pravidla pro tabulku user pro rezervace */
+	   #showRes {
+		overflow-x:auto;
+		overflow-y: scroll;
+	  } 
+	  .tableUser{
+		border: 1px solid black;
+		border-collapse: collapse;
+	} 
+	.tableUserCell{
+		border: 1px solid black;
+		border-collapse: collapse;
+	} 
+	.tableUserRow{
+		cursor: pointer;
+	} 
+	.tableUserRow:hover {
+		background-color: #3497AA;
+	  }
 	 /*RESPONZIVNÍ DESIGN*/
            
                        
@@ -236,29 +257,8 @@
 		   .clanekSiroky2{height: auto;}
 		   .clanekSiroky{height: auto;}
 		   .rezervaceUzivatele{width:96%;margin:10px}
+		   .uprostredR2{width:98%}
 	}
-
-		 /* Pravidla pro tabulku user pro rezervace */
-		 #showRes {
-			overflow-x:auto;
-			overflow-y: scroll;
-		  } 
-		  .tableUser{
-			border: 1px solid black;
-			border-collapse: collapse;
-		} 
-		.tableUserCell{
-			border: 1px solid black;
-			border-collapse: collapse;
-		} 
-		.tableUserRow{
-			cursor: pointer;
-		} 
-		.tableUserRow:hover {
-			background-color: #3497AA;
-		  }
-	
-		 /*RESPONZIVNÍ DESIGN*/
 		   
 				 
 	 /*pro zařízení s  rozlišením do  768px */
@@ -274,6 +274,7 @@
 		   .clanekSiroky2{height: auto;}
 		   .clanekSiroky{height: auto;}
 		   .rezervaceUzivatele{width:97%;margin-left:10px}
+		   .uprostredR2{width:98%}
 		  }
 			   
 	 /*pro zařízení s  rozlišením do 1024px */
@@ -283,7 +284,8 @@
 		   .clanek{width:73%;height:auto}
 		   .column {float:left;width:33%;margin-bottom:10px;}
 		   .clanekS{width:55%}
-		   .panelS{width:43%;float:right;}	   
+		   .panelS{width:43%;float:right;}
+		   .uprostredR2{width:98%}	   
 	 }
 
 	 /* pro zařízení s rozlišením vyšším než 1024px*/
@@ -293,6 +295,13 @@
 		.clanek{width:76%;}
 		.column{float:left;width:25%;margin-bottom:10px;}  
 		.clanekS{width:55%}
-		.panelS{width:43%;float:right;}
-																				   
+		.panelS{width:43%;float:right;}																	   
 		} 
+
+
+
+
+		   					  
+
+
+

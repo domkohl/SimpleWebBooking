@@ -4,12 +4,13 @@
 <!--PROFIL UŽIVATELE-->
 
 <head>
-{{>head}}
-{{!-- <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" /> --}}
+	{{>head}}
+	{{!--
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" /> --}}
 </head>
 
 <body>
-{{>header}}
+	{{>header}}
 	<!-- nadpis -->
 
 	<!--prostřední část-->
@@ -47,12 +48,20 @@
 							<button class="rozestup" id="povolzmeny" type="button">Změnit údaje</button>
 						</td>
 						<td>
+							<button class="rozestup" id="logoutOne" type="button">Odhlásit z toho zařízení</button>
+						</td>
+						<td>
+							<button class="rozestup" id="logoutAll" type="button">Odhlásit ze všech zařízení</button>
+						</td>
+						<td>
 							<button class="rozestup" type="submit">Uložit</button>
 						</td>
 					</tr>
 				</table>
-                </form>
-                <form id="change-password">
+			</form>
+		</div>
+		<div class="clanekP2">
+			<form id="change-password">
 				<h2 class="malynadpis dopln ">Změna hesla</h2>
 				<table class="table">
 					<tr>
@@ -71,16 +80,18 @@
 				</table>
 			</form>
 		</div>
-		<div class="clanekP">
-		<div id="showRes">
+	</div>
 
-			
-		</div>
+	<div class="clanekSiroky2">
+		<h2 class="malynadpis dopln odstavec">Rezervace uživatele</h2>
+		<div class="uprostredR2">
+			<div id="showRes">
+			</div>
 		</div>
 	</div>
 
-{{>footer}}
-<script src="/js/userOpen.js"></script>
+	{{>footer}}
+	<script src="/js/userOpen.js"></script>
 </body>
 
 </html>

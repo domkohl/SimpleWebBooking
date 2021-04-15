@@ -137,3 +137,58 @@ function allowChanges(){
 }
 
 document.getElementById("povolzmeny").addEventListener("click",allowChanges)
+
+
+async function logoutOne(){
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    
+    var raw = JSON.stringify({"token":sessionStorage.getItem("token")});
+    
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    const result = await fetch("/users/logout", requestOptions)
+    const finnalResult = await result.json()
+    if(finnalResult.status === "ok"){
+        //vse v proadku
+        alert("Úspěšné odhlášení")
+        sessionStorage.removeItem("token")
+        location.reload();
+    }else{
+        alert(finnalResult.error)
+    }
+}
+
+document.getElementById("logoutOne").addEventListener("click",logoutOne)
+
+async function logoutAll(){
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    
+    var raw = JSON.stringify({"token":sessionStorage.getItem("token")});
+    
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    const result = await fetch("/users/logoutAll", requestOptions)
+    const finnalResult = await result.json()
+    if(finnalResult.status === "ok"){
+        //vse v proadku
+        alert("Úspěšné odhlášení ze všech zařízení")
+        sessionStorage.removeItem("token")
+        location.reload();
+    }else{
+        alert(finnalResult.error)
+    }
+ }
+ 
+ document.getElementById("logoutAll").addEventListener("click",logoutAll)

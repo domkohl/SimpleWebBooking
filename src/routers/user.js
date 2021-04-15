@@ -172,6 +172,35 @@ async function authenticateToken(req, res, next) {
     }
   }
 
+// odhlášení uživatele
+router.post('/users/logout', auth, async (req, res) => {   
+    console.log(req.body)
+    try {
+        req.body.user.tokens = req.body.user.tokens.filter((token) => {
+            // console.log('Porovnávám token.token ('+token.token+') s req.token ('+req.body.token+')')
+            return token.token !== req.body.token
+        })
+        
+        await req.body.user.save()
+
+        res.send({status:"ok"})
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
+// odhlášení uživatele ze všech zařízení
+router.post('/users/logoutAll', auth, async (req, res) => {
+
+    try {
+        req.body.user.tokens = []
+        await req.body.user.save()
+        res.send({status:"ok"})
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
 
 
 
