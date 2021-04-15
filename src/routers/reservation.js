@@ -121,11 +121,8 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
         }
         const idNewRoom = roomExist._id
 
-
-
         const {checkIn,checkOut} = req.body
 
-    
         const checkInDate = new Date(checkIn);
         const checkOutDate = new Date(checkOut);
     
@@ -135,8 +132,11 @@ router.patch("/api/reservation/:id",auth,async (req,res)=>{
             return
         }
         
-        const test =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"room":idNewRoom})
+        const test =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"room":idNewRoom,"status":"pending"})
+        const test2 =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"room":idNewRoom,"status":"approved"})
+        test2.forEach(x => test.push(x))
     
+        console.log(test)
         if(!test.length == 0){
             throw new Error('Vybráný termín nebo jeho část je již rezervována')
             res.json({status:"error",error:"Vybráný termín nebo jeho část je již rezervována"})
@@ -188,11 +188,13 @@ router.get("/api/reservation-date",async (req,res)=>{
     }
 
     try {
-        const toRemove =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate}})
+        const toRemove =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"status":"pending"})
+        const toRemove2 =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"status":"approved"})
+        toRemove2.forEach(x => toRemove.push(x))
         let rooms = await Room.find({})
 
         // console.log(rooms)
-        // console.log(toRemove)
+        console.log(toRemove)
     if(!toRemove.length == 0){
 
         // const outPut = rooms.filter(x =>{
@@ -230,7 +232,9 @@ async function dateAllowed(req,res,next){
     }
 
     try {
-        const test =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"room":req.body.room})
+        const test =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"room":req.body.room,"status":"pending"})
+        const test2 =  await Reservation.find({"checkIn": {$lt: checkOutDate}, "checkOut": {$gt: checkInDate},"room":req.body.room,"status":"approved"})
+        test2.forEach(x => test.push(x))
 
     if(!test.length == 0){
         res.json({status:"error",error:"Vybráný termín nebo jeho část je již rezervována"})
