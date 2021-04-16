@@ -166,7 +166,6 @@ router.get("/api/reservation-date", async (req, res) => {
         toRemove2.forEach(x => toRemove.push(x))
         let rooms = await Room.find({})
         if (!toRemove.length == 0) {
-            toRemove.forEach(x => console.log(x.room))
             rooms = rooms.filter(room => !toRemove.find(reservation => (reservation.room.toString() === room._id.toString())))
             res.send({ rooms, status: "ok" })
             return
