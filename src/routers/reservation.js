@@ -82,6 +82,7 @@ router.patch("/api/reservation/:id", auth, async (req, res) => {
     let tmpOwner = null
     let tmpRoom = null
     let tmpStatus = null
+    let tmpRes = null
 
     try {
         // Zjistim zda je uživatel admin nebo basic, podle toho určím zda může upravovat nebo ne
@@ -93,8 +94,9 @@ router.patch("/api/reservation/:id", auth, async (req, res) => {
             tmpRes = await Reservation.findOne({ _id: req.params.id, owner: req.body.user._id })
             const delRes = await Reservation.findOneAndDelete({ _id: req.params.id, owner: req.body.user._id })
         }
+
         // Rezervace neexituje nebo uživatel nemá praovc ji upravovat
-        if (tmpRes == null) {
+        if (tmpRes === null) {
             throw new Error('Rezervace nenalezena')
         }
         // Dočasné uložení rezervace po jejím smazání z databáze
@@ -104,6 +106,7 @@ router.patch("/api/reservation/:id", auth, async (req, res) => {
         tmp_id = tmpRes._id
         tmpRoom = tmpRes.room
         tmpStatus = tmpRes.status
+
         //Zkontroluji zda jde vytvořit rezervace
         await dateAllowedPatch(req)
 
@@ -132,14 +135,16 @@ router.patch("/api/reservation/:id", auth, async (req, res) => {
 
     } catch (error) {
         //Vrácení rezervace zpět při jakékoli chybě
-        const result = await Reservation.create({
-            checkIn: tmpCheckIn,
-            checkOut: tmpCheckOut,
-            status: tmpStatus,
-            owner: tmpOwner,
-            room: tmpRoom,
-            _id: new mongoose.mongo.ObjectId(tmp_id)
-        })
+        if (tmpRes != null) {
+            const result = await Reservation.create({
+                checkIn: tmpCheckIn,
+                checkOut: tmpCheckOut,
+                status: tmpStatus,
+                owner: tmpOwner,
+                room: tmpRoom,
+                _id: new mongoose.mongo.ObjectId(tmp_id)
+            })
+        }
         res.send({ status: "error", error: error.message })
     }
 })

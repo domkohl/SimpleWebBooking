@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
+
 //Funkce pro authorizaci uživatele pomocí body
 const auth = async (req, res, next) => {
     try {

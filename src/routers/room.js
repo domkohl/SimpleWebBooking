@@ -1,7 +1,8 @@
 // Router tykacíjí se pokoje
 const express = require('express')
 const router = new express.Router()
-const { auth, ROLE } = require('../middleware/auth')
+const { auth } = require('../middleware/auth')
+const { ROLE } = require('../helpFunctions/help')
 const Room = require('../models/room')
 
 // Vytvoření pokoje authorizace - admin

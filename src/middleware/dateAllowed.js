@@ -18,6 +18,7 @@ async function dateAllowed(req, res, next) {
         return
     }
     try {
+        //Zjistím zda termín nezasahuje do jiného termínu
         const test = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": req.body.room, "status": "pending" })
         const test2 = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": req.body.room, "status": "approved" })
         test2.forEach(x => test.push(x))

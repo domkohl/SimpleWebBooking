@@ -59,7 +59,6 @@ async function findReservations(event) {
     };
     const result = await fetch("/api/reservation-date", requestOptions)
     const finnalResult = await result.json()
-    console.log(finnalResult)
     if (finnalResult.status === "ok") {
         alert("Termíny vyhledaný")
         renderTable(finnalResult.rooms)

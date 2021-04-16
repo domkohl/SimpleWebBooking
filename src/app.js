@@ -7,13 +7,13 @@ const path = require("path")
 const hbs = require('hbs')
 
 const mongoose = require('mongoose')
-
+//Pripojeni do databaze
 mongoose.connect('mongodb://127.0.0.1:27017/ubytovaciZarizeni', {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
 })
-
+//cesty
 const publicDirectoryPath = path.join(__dirname, "../public")
 const viewsPath = path.join(__dirname, '../templates/views')
 const partialsPath = path.join(__dirname, '../templates/partials')
@@ -23,6 +23,7 @@ hbs.registerPartials(partialsPath)
 app.set("view engine", "hbs")
 app.set("views", viewsPath)
 
+// Routovani
 const userRouter = require('./routers/user')
 const reservationRouter = require('./routers/reservation')
 const roomRouter = require('./routers/room')
@@ -31,6 +32,7 @@ const roomRouter = require('./routers/room')
 app.get("/", (req, res) => {
     res.render("index.hbs")
 })
+//Routy
 app.use(userRouter)
 app.use(reservationRouter)
 app.use(roomRouter)

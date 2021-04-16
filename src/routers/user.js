@@ -76,7 +76,6 @@ router.patch('/users/me', auth, async (req, res) => {
         await req.body.user.save()
         res.send({ status: "ok" })
     } catch (e) {
-        console.log(e.message)
         res.send({ status: "error", error: e.message })
     }
 
@@ -84,7 +83,6 @@ router.patch('/users/me', auth, async (req, res) => {
 
 // odhlášení uživatele
 router.post('/users/logout', auth, async (req, res) => {
-    console.log(req.body)
     try {
         req.body.user.tokens = req.body.user.tokens.filter((token) => {
             return token.token !== req.body.token

@@ -1,10 +1,10 @@
 //Model pro pokoj
-
 const mongoose = require('mongoose')
 const Room = mongoose.model('Room', {
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   capacity: {
     type: Number,

@@ -1,14 +1,9 @@
 //Model pro uživatele
-
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-
-const ROLE = {
-    ADMIN: 'admin',
-    BASIC: 'basic'
-}
+const { ROLE } = require('../helpFunctions/help')
 
 const userSchema = new mongoose.Schema({
     username: {
