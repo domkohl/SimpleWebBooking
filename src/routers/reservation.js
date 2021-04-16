@@ -4,6 +4,8 @@ const User = require('../models/user')
 const auth = require('../middleware/auth')
 const Reservation = require('../models/reservation')
 const Room = require('../models/room')
+var mongoose = require('mongoose');
+
 const ROLE = {
     ADMIN: 'admin',
     BASIC: 'basic'
@@ -29,11 +31,10 @@ router.post("/api/reservation", auth, dateAllowed, async (req, res) => {
             checkOut,
             status: "pending",
             owner,
-            room
+            room,
         })
         res.send({ status: "ok" })
     } catch (error) {
-        console.log(error.message)
         res.send({ status: "error", error: "Spatné zadaní termínu" })
     }
 
@@ -80,75 +81,68 @@ router.get("/api/reservation/:id", authenticateToken, async (req, res) => {
 router.patch("/api/reservation/:id", auth, async (req, res) => {
     let tmpCheckIn = null
     let tmpCheckOut = null
-    let tmpRes = null
+    let tmp_id = null
+    let tmpOwner = null
+    let tmpRoom = null
+    let tmpStatus = null
+
     try {
+        // Zjistim zda je uživatel admin nebo basic, podle toho určím zda může upravovat nebo ne
         if (req.body.user.role === ROLE.ADMIN) {
             tmpRes = await Reservation.findOne({ _id: req.params.id })
-            const delRes = await Reservation.findOneAndUpdate({ _id: req.params.id }, {
-                checkIn: null,
-                checkOut: null
-            }, { useFindAndModify: false, new: true, runValidators: true })
+            const delRes = await Reservation.findOneAndDelete({ _id: req.params.id })
         } else {
+            //Uživatel může upravit jen svou rezervace
             tmpRes = await Reservation.findOne({ _id: req.params.id, owner: req.body.user._id })
-            const delRes = await Reservation.findOneAndUpdate({ _id: req.params.id, owner: req.body.user._id }, {
-                checkIn: null,
-                checkOut: null
-            }, { useFindAndModify: false, new: true, runValidators: true })
+            const delRes = await Reservation.findOneAndDelete({ _id: req.params.id, owner: req.body.user._id })
         }
+        // Rezervace neexituje nebo uživatel nemá praovc ji upravovat
         if (tmpRes === null) {
             throw new Error('Rezervace nenalezena')
         }
-
+        // Dočasné uložení rezervace po jejím smazání z databáze
         tmpCheckIn = tmpRes.checkIn
         tmpCheckOut = tmpRes.checkOut
+        tmpOwner = tmpRes.owner
+        tmp_id = tmpRes._id
+        tmpRoom = tmpRes.room
+        tmpStatus = tmpRes.status
+        //Zkontroluji zda jde vytvořit rezervace
+        await dateAllowedPatch(req)
 
-        const roomExist = await Room.findOne({ name: req.body.room })
-        if (roomExist === null) {
-            throw new Error('Pokoj nenalezen')
-        }
-        const idNewRoom = roomExist._id
-        const { checkIn, checkOut } = req.body
-
-        const checkInDate = new Date(checkIn);
-        const checkOutDate = new Date(checkOut);
-
-        if (checkInDate >= checkOutDate) {
-            throw new Error('Špatné zadaní termínu')
-
-        }
-
-        const test = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": idNewRoom, "status": "pending" })
-        const test2 = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": idNewRoom, "status": "approved" })
-        test2.forEach(x => test.push(x))
-
-        if (!test.length == 0) {
-            throw new Error('Vybráný termín nebo jeho část je již rezervována')
-        }
-
+        //Rezervace lze vytvořit a upravím jí podle pravomocí
         if (req.body.user.role === ROLE.ADMIN) {
-            const reservation = await Reservation.findOneAndUpdate({ _id: req.params.id }, {
-                status: req.body.status, checkIn: req.body.checkIn,
-                checkOut: req.body.checkOut, room: idNewRoom
-            }, { useFindAndModify: false, new: true, runValidators: true })
-            if (!reservation) {
-                throw new Error('Nenalezena rezevace')
-            }
+            const result = await Reservation.create({
+                checkIn: req.body.checkIn,
+                checkOut: req.body.checkOut,
+                status: req.body.status,
+                owner: tmpOwner,
+                room: req.body.room,
+                _id: new mongoose.mongo.ObjectId(tmp_id)
+            })
             res.send({ status: "ok" })
         } else {
-            const reservation = await Reservation.findOneAndUpdate({ _id: req.params.id }, {
-                status: "pending", checkIn: req.body.checkIn,
-                checkOut: req.body.checkOut, room: idNewRoom
-            }, { useFindAndModify: false, new: true, runValidators: true })
-            if (!reservation) {
-                throw new Error('Nenalezena rezevace')
-            }
+            const result = await Reservation.create({
+                checkIn: req.body.checkIn,
+                checkOut: req.body.checkOut,
+                status: "pending",
+                owner: tmpOwner,
+                room: req.body.room,
+                _id: new mongoose.mongo.ObjectId(tmp_id)
+            })
             res.send({ status: "ok" })
         }
+
     } catch (error) {
-        const delRes = await Reservation.findOneAndUpdate({ _id: req.params.id }, {
+        //Vrácení rezervace zpět při jakékoli chybě
+        const result = await Reservation.create({
             checkIn: tmpCheckIn,
-            checkOut: tmpCheckOut
-        }, { useFindAndModify: false, new: true, runValidators: true })
+            checkOut: tmpCheckOut,
+            status: tmpStatus,
+            owner: tmpOwner,
+            room: tmpRoom,
+            _id: new mongoose.mongo.ObjectId(tmp_id)
+        })
         res.send({ status: "error", error: error.message })
     }
 })
@@ -193,6 +187,11 @@ async function dateAllowed(req, res, next) {
         res.json({ status: "error", error: "Špatné zadaní termínu" })
         return
     }
+    const roomExist = await Room.findOne({ _id: req.body.room })
+    if (roomExist === null) {
+        res.json({ status: "error", error: "Pokoj nenalezen" })
+        return
+    }
     try {
         const test = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": req.body.room, "status": "pending" })
         const test2 = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": req.body.room, "status": "approved" })
@@ -208,7 +207,30 @@ async function dateAllowed(req, res, next) {
     }
     next()
 }
+// Zjištění zda lze rezeravce upravit
+async function dateAllowedPatch(req) {
+    const { checkIn, checkOut } = req.body
 
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+
+    if (checkInDate >= checkOutDate) {
+        throw new Error("Špatné zadaní termínu")
+    }
+    const roomExist = await Room.findOne({ name: req.body.room })
+    if (roomExist === null) {
+        throw new Error("Pokoj nenalezen")
+    }
+    //změním jméno pokoje na id
+    req.body.room = roomExist._id
+    const test = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": req.body.room, "status": "pending" })
+    const test2 = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": req.body.room, "status": "approved" })
+    test2.forEach(x => test.push(x))
+
+    if (!test.length == 0) {
+        throw new Error("Vybráný termín nebo jeho část je již rezervována")
+    }
+}
 // Pomocná metoda middleware pro autorizaci pomocí hlavičky
 const jwt = require('jsonwebtoken')
 async function authenticateToken(req, res, next) {
