@@ -326,10 +326,10 @@ body {
 
 .clanekP {
     float: right;
-    width: 48%;
+    width: 400px;
     margin: 5px;
     height: 480px;
-    border: 3px solid black
+    border: 3px solid black;
 }
 
 .clanekP2 {
@@ -352,7 +352,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
-    width: 900px;
+    width: 670px;
     border: 2px solid black;
     margin-bottom: 10px
 }
@@ -416,7 +416,6 @@ body {
     border: 3px solid black;
     margin: 10px
 }
-
 
 /*GALERIE*/
 
@@ -708,9 +707,7 @@ img.hover-shadow {
         width: 97%;
         margin-left: 10px
     }
-    .uprostredR2 {
-        width: 98%
-    }
+    
 }
 
 
@@ -741,9 +738,11 @@ img.hover-shadow {
         width: 43%;
         float: right;
     }
-    .uprostredR2 {
-        width: 98%
-    }
+    .clanekP{width:50%;height:200px;margin-left:auto;margin-right:auto}
+    .clanekL{width:100%}
+    .clanekSiroky2{height:650px}
+
+    
 }
 
 
