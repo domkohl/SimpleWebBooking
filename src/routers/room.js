@@ -1,15 +1,10 @@
 // Router tykacíjí se pokoje
 const express = require('express')
 const router = new express.Router()
-const auth = require('../middleware/auth')
+const { auth, ROLE } = require('../middleware/auth')
 const Room = require('../models/room')
 
-const ROLE = {
-    ADMIN: 'admin',
-    BASIC: 'basic'
-}
-
-// Vyřvoření pokoje authorizace - admin
+// Vytvoření pokoje authorizace - admin
 router.post("/api/room", auth, async (req, res) => {
     if (req.body.user.role === ROLE.BASIC) {
         res.send({ status: "error", error: "Nemáš pravomoc" })

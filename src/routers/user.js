@@ -1,8 +1,8 @@
 // Router tykacíjí se uživatele
 const express = require('express')
 const User = require('../models/user')
-const auth = require('../middleware/auth')
-const { scopedReservations } = require('../permissions/reservations')
+const { auth, authenticateTokenHead } = require('../middleware/auth')
+const { scopedReservations } = require('../helpFunctions/help')
 
 const router = new express.Router()
 
@@ -43,7 +43,6 @@ router.post("/api/register", async (req, res) => {
             return res.send({ status: "error", error: e.message })
         }
     }
-
     res.send({ status: "ok" })
 })
 
@@ -59,7 +58,7 @@ router.post("/api/login", async (req, res) => {
 })
 
 // Authorizace, vrácení informaci o uživateli a jeho rezervace
-router.get('/users/me', authenticateToken, async (req, res) => {
+router.get('/users/me', authenticateTokenHead, async (req, res) => {
     const reservations = await scopedReservations(req.body.user)
     res.send({ user: req.body.user, reservation: reservations })
 })
@@ -82,27 +81,6 @@ router.patch('/users/me', auth, async (req, res) => {
     }
 
 })
-
-
-// Pomocná metoda middleware pro autorizaci pomocí hlavičky
-const jwt = require('jsonwebtoken')
-async function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401)
-    try {
-        const decoded = jwt.verify(token, 'Valentýn')
-        const user = await User.findOne({ _id: decoded.id, 'tokens.token': token })
-        if (!user) {
-            throw new Error()
-        }
-        req.body.token = token
-        req.body.user = user
-        next()
-    } catch (e) {
-        res.status(401).send({ error: 'Prokažte svou totožnost.(Přihlašte se)' })
-    }
-}
 
 // odhlášení uživatele
 router.post('/users/logout', auth, async (req, res) => {

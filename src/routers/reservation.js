@@ -1,15 +1,12 @@
 // Router tykacíjí se rezervací
 const express = require('express')
-const User = require('../models/user')
-const auth = require('../middleware/auth')
+const { auth, authenticateTokenHead } = require('../middleware/auth')
+const { dateAllowed } = require('../middleware/dateAllowed')
+const { dateAllowedPatch, ROLE } = require('../helpFunctions/help')
 const Reservation = require('../models/reservation')
 const Room = require('../models/room')
 var mongoose = require('mongoose');
 
-const ROLE = {
-    ADMIN: 'admin',
-    BASIC: 'basic'
-}
 const router = new express.Router()
 
 // Vykreslení stránky pro editaci rezervace
@@ -61,7 +58,7 @@ router.delete("/api/reservation/:id", auth, async (req, res) => {
 })
 
 // Authorizace a vrácení informací o jedné rezervaci, s listem všech možných pokojů
-router.get("/api/reservation/:id", authenticateToken, async (req, res) => {
+router.get("/api/reservation/:id", authenticateTokenHead, async (req, res) => {
     try {
         let Res = await Reservation.findOne({ _id: req.params.id, owner: req.body.user._id })
         if (req.body.user.role === ROLE.ADMIN) {
@@ -97,7 +94,7 @@ router.patch("/api/reservation/:id", auth, async (req, res) => {
             const delRes = await Reservation.findOneAndDelete({ _id: req.params.id, owner: req.body.user._id })
         }
         // Rezervace neexituje nebo uživatel nemá praovc ji upravovat
-        if (tmpRes === null) {
+        if (tmpRes == null) {
             throw new Error('Rezervace nenalezena')
         }
         // Dočasné uložení rezervace po jejím smazání z databáze
@@ -175,80 +172,5 @@ router.get("/api/reservation-date", async (req, res) => {
         res.send({ status: "error", error: "Špatné zadaní termínu" })
     }
 })
-
-// Pomocná metoda middleware zjistí, zda je možné vytvořit termín
-async function dateAllowed(req, res, next) {
-    const { checkIn, checkOut } = req.body
-
-    const checkInDate = new Date(checkIn);
-    const checkOutDate = new Date(checkOut);
-
-    if (checkInDate >= checkOutDate) {
-        res.json({ status: "error", error: "Špatné zadaní termínu" })
-        return
-    }
-    const roomExist = await Room.findOne({ _id: req.body.room })
-    if (roomExist === null) {
-        res.json({ status: "error", error: "Pokoj nenalezen" })
-        return
-    }
-    try {
-        const test = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": req.body.room, "status": "pending" })
-        const test2 = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": req.body.room, "status": "approved" })
-        test2.forEach(x => test.push(x))
-
-        if (!test.length == 0) {
-            res.json({ status: "error", error: "Vybráný termín nebo jeho část je již rezervována" })
-            return
-        }
-
-    } catch (error) {
-        res.json({ status: "error", error: "Špatné zadaní termínu" })
-    }
-    next()
-}
-// Zjištění zda lze rezeravce upravit
-async function dateAllowedPatch(req) {
-    const { checkIn, checkOut } = req.body
-
-    const checkInDate = new Date(checkIn);
-    const checkOutDate = new Date(checkOut);
-
-    if (checkInDate >= checkOutDate) {
-        throw new Error("Špatné zadaní termínu")
-    }
-    const roomExist = await Room.findOne({ name: req.body.room })
-    if (roomExist === null) {
-        throw new Error("Pokoj nenalezen")
-    }
-    //změním jméno pokoje na id
-    req.body.room = roomExist._id
-    const test = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": req.body.room, "status": "pending" })
-    const test2 = await Reservation.find({ "checkIn": { $lt: checkOutDate }, "checkOut": { $gt: checkInDate }, "room": req.body.room, "status": "approved" })
-    test2.forEach(x => test.push(x))
-
-    if (!test.length == 0) {
-        throw new Error("Vybráný termín nebo jeho část je již rezervována")
-    }
-}
-// Pomocná metoda middleware pro autorizaci pomocí hlavičky
-const jwt = require('jsonwebtoken')
-async function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.sendStatus(401)
-    try {
-        const decoded = jwt.verify(token, 'Valentýn')
-        const user = await User.findOne({ _id: decoded.id, 'tokens.token': token })
-        if (!user) {
-            throw new Error()
-        }
-        req.body.token = token
-        req.body.user = user
-        next()
-    } catch (e) {
-        res.status(401).send({ error: 'Prokažte svou totožnost.(Přihlašte se)' })
-    }
-}
 
 module.exports = router
