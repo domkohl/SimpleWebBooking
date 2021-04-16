@@ -12,8 +12,11 @@ router.post("/api/room", auth, async (req, res) => {
         return
     }
     try {
-        const result = new Room(req.body.params)
-        await result.save()
+        const result = await Room.create({
+            name: req.body.params.name,
+            capacity: req.body.params.capacity,
+            price: req.body.params.price
+        })
         res.send({ status: "ok" })
     } catch (error) {
         res.send({ status: "error", error: "Špatné zadaní pokoje" })

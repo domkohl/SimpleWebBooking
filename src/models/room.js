@@ -1,10 +1,11 @@
 //Model pro pokoj
 const mongoose = require('mongoose')
-const Room = mongoose.model('Room', {
+
+const roomSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
-    unique: true
+    unique: true,
+    required: true
   },
   capacity: {
     type: Number,
@@ -15,4 +16,5 @@ const Room = mongoose.model('Room', {
     required: true,
   },
 })
+const Room = mongoose.model('Room', roomSchema)
 module.exports = Room
