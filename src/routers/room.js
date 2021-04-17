@@ -1,4 +1,4 @@
-// Router tykacíjí se pokoje
+// Router tykající se pokoje
 const express = require('express')
 const router = new express.Router()
 const { auth } = require('../middleware/auth')
