@@ -1,4 +1,4 @@
-// Router tykající se rezervací
+// Router týkající se rezervací
 const express = require('express')
 const { auth, authenticateTokenHead } = require('../middleware/auth')
 const { dateAllowed } = require('../middleware/dateAllowed')
