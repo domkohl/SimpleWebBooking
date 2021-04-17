@@ -147,7 +147,7 @@ async function logoutOne() {
     if (finnalResult.status === "ok") {
         alert("Úspěšné odhlášení")
         sessionStorage.removeItem("token")
-        location.reload();
+        window.location.replace("/")
     } else {
         alert(finnalResult.error)
     }
@@ -173,7 +173,7 @@ async function logoutAll() {
     if (finnalResult.status === "ok") {
         alert("Úspěšné odhlášení ze všech zařízení")
         sessionStorage.removeItem("token")
-        location.reload();
+        window.location.replace("/")
     } else {
         alert(finnalResult.error)
     }
